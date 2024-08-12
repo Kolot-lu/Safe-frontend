@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { BrowserProvider } from "ethers";
-import TronWeb from "tronweb";
+import React, { createContext, useContext, useState } from "react";
+import { BrowserProvider, ethers } from "ethers";
+import TronWeb from 'tronweb';
 import { Project } from "../types";
 
 interface BlockchainContextProps {
@@ -26,7 +26,7 @@ export const BlockchainProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const connectEthereum = async () => {
     if (window.ethereum) {
-      const browserProvider = new BrowserProvider(window.ethereum);
+      const browserProvider = new ethers.BrowserProvider(window.ethereum);
       await browserProvider.send("eth_requestAccounts", []);
       setProvider(browserProvider);
     } else {
