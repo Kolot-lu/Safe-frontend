@@ -1,11 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* Global types for extending the Window object */
 
-import { Eip1193Provider } from "ethers";
+import { Eip1193Provider } from 'ethers';
+import TronWeb from 'tronweb';
 
 export {};
+
 declare global {
   interface Window {
-    ethereum?: Eip1193Provider;
-    tronWeb?: any;
+    ethereum?: Eip1193Provider; // MetaMask or similar Ethereum provider
+    tronWeb?: TronWeb; // TronLink provider
   }
 }
