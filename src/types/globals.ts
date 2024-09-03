@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ExternalProvider } from "@ethersproject/providers";
+
+import { Eip1193Provider } from "ethers";
 
 export {};
 declare global {
   interface Window {
-    ethereum: ExternalProvider;
-    tronWeb: any;
+    ethereum?: Eip1193Provider;
+    tronWeb?: any;
   }
 }
