@@ -1,23 +1,29 @@
-import React from "react";
-import { useBlockchain } from "../context/BlockchainProvider";
+import React from 'react';
+import { useBlockchain } from '../hooks/useBlockchain';
 
 const ConnectWallet: React.FC = () => {
-  const { connectEthereum, connectTron } = useBlockchain();
+  const { connectEthereum, connectTron, provider, tronWeb, isLoadingProjects, projects } = useBlockchain();
 
   return (
-    <div className="flex space-x-4">
-      <button
-        onClick={connectEthereum}
-        className="px-4 py-2 bg-blue-600 text-white rounded"
-      >
-        Connect to Ethereum
-      </button>
-      <button
-        onClick={connectTron}
-        className="px-4 py-2 bg-green-600 text-white rounded"
-      >
-        Connect to Tron
-      </button>
+    <div>
+      {!provider && !tronWeb ? (
+        <div>
+          <button onClick={connectEthereum} className="m-2 p-2 bg-blue-400">Connect to Ethereum</button>
+          <button onClick={connectTron} className="m-2 p-2 bg-red-400">Connect to Tron</button>
+        </div>
+      ) : (
+        <div>
+          {isLoadingProjects ? (
+            <p>Loading projects...</p>
+          ) : (
+            <ul>
+              {projects.map((project, index) => (
+                <li key={index}>{project.executor}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   );
 };

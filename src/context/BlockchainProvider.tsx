@@ -1,52 +1,76 @@
-import React, { createContext, useContext, useState } from "react";
-import { BrowserProvider, ethers } from "ethers";
+import React, { createContext, useMemo } from 'react';
+import { useEthereum } from '../hooks/useEthereum';
+import { useTron } from '../hooks/useTron';
+import { useContractService } from '../hooks/useContractService';
+import { useProjects } from '../hooks/useProjects';
+import { BrowserProvider } from 'ethers';
 import TronWeb from 'tronweb';
-import { Project } from "../types";
+import { Project, IBlockchainContractService } from '../types';
 
-interface BlockchainContextProps {
+/**
+ * Interface describing the context data available to consuming components
+ */
+export interface BlockchainContextProps {
   provider: BrowserProvider | null;
   tronWeb: TronWeb | null;
+  contractService: IBlockchainContractService | null;
   connectEthereum: () => void;
   connectTron: () => void;
   projects: Project[];
+  isLoadingProjects: boolean;
+  errorProjects: Error | null;
 }
 
-const BlockchainContext = createContext<BlockchainContextProps | null>(null);
+/**
+ * Create a BlockchainContext with default value as null.
+ * This will be used to pass the blockchain state and actions to the rest of the app.
+ */
+export const BlockchainContext = createContext<BlockchainContextProps | null>(null);
 
-export const useBlockchain = () => {
-  return useContext(BlockchainContext);
-};
+/**
+ * BlockchainProvider component is responsible for managing:
+ * - Wallet connections (Ethereum or Tron)
+ * - Contract service initialization based on the connected blockchain
+ * - Managing project-related data and state
+ *
+ * @param {React.ReactNode} children - Child components that need access to blockchain context.
+ * @returns JSX Element that provides the BlockchainContext.
+ */
+export const BlockchainProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Custom hooks to manage connection to Ethereum and Tron wallets
+  const { provider, connectEthereum } = useEthereum();
+  const { tronWeb, connectTron } = useTron();
 
-export const BlockchainProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [provider, setProvider] = useState<BrowserProvider | null>(null);
-  const [tronWeb, setTronWeb] = useState<TronWeb | null>(null);
-  const [projects, setProjects] = useState<Project[]>([]);
+  // Determine the blockchain type based on the connected provider
+  const blockchainType: 'ethereum' | 'tron' | null = provider ? 'ethereum' : tronWeb ? 'tron' : null;
 
-  const connectEthereum = async () => {
-    if (window.ethereum) {
-      const browserProvider = new ethers.BrowserProvider(window.ethereum);
-      await browserProvider.send("eth_requestAccounts", []);
-      setProvider(browserProvider);
-    } else {
-      alert("MetaMask is not installed!");
-    }
-  };
+  // Call useContractService unconditionally, but handle the return value inside useMemo
+  const contractService = useContractService(provider, tronWeb, blockchainType === 'ethereum' ? 'ethereum' : 'tron');
 
-  const connectTron = async () => {
-    if (window.tronWeb && window.tronWeb.ready) {
-      setTronWeb(window.tronWeb);
-    } else {
-      alert("TronLink is not installed!");
-    }
-  };
+  // Fetch projects using the contract service and handle project-related state
+  const { data: projects = [], isLoading: isLoadingProjects, error: errorProjects } = useProjects(contractService);
 
-  return (
-    <BlockchainContext.Provider
-      value={{ provider, tronWeb, connectEthereum, connectTron, projects }}
-    >
-      {children}
-    </BlockchainContext.Provider>
+  /**
+   * Memoize the context value to prevent unnecessary re-renders.
+   * The value will only be recalculated when its dependencies change.
+   */
+  const contextValue = useMemo(
+    () => ({
+      provider,
+      tronWeb,
+      contractService,
+      connectEthereum,
+      connectTron,
+      projects,
+      isLoadingProjects,
+      errorProjects,
+    }),
+    [provider, tronWeb, contractService, connectEthereum, connectTron, projects, isLoadingProjects, errorProjects]
   );
+
+  /**
+   * Return the provider with the memoized context value.
+   * This allows child components to consume the context efficiently.
+   */
+  return <BlockchainContext.Provider value={contextValue}>{children}</BlockchainContext.Provider>;
 };
