@@ -25,6 +25,7 @@ const getEnvVariable = (key: string): string => {
 const config = {
   // Address of the deployed smart contract
   CONTRACT_ADDRESS: getEnvVariable('VITE_CONTRACT_ADDRESS'),
+  TRON_CONTRACT_ADDRESS: getEnvVariable('VITE_TRON_CONTRACT_ADDRESS'),
 };
 
 export default config;
