@@ -1,0 +1,325 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_projectId",
+				"type": "uint256"
+			}
+		],
+		"name": "cancelProject",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_projectId",
+				"type": "uint256"
+			}
+		],
+		"name": "confirmMilestone",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_executor",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_totalAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "_milestoneAmounts",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_platformFeePercent",
+				"type": "uint256"
+			},
+			{
+				"internalType": "contract IERC20",
+				"name": "_token",
+				"type": "address"
+			}
+		],
+		"name": "createProject",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_client",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_totalAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "_milestoneAmounts",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_platformFeePercent",
+				"type": "uint256"
+			},
+			{
+				"internalType": "contract IERC20",
+				"name": "_token",
+				"type": "address"
+			}
+		],
+		"name": "executorInitiateProject",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_projectId",
+				"type": "uint256"
+			}
+		],
+		"name": "fundProject",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "projectId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "milestoneIndex",
+				"type": "uint256"
+			}
+		],
+		"name": "MilestoneCompleted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "token",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "PlatformWithdrawal",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "projectId",
+				"type": "uint256"
+			}
+		],
+		"name": "ProjectCancelled",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "projectId",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "client",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "executor",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "token",
+				"type": "address"
+			}
+		],
+		"name": "ProjectCreated",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "_token",
+				"type": "address"
+			}
+		],
+		"name": "withdrawPlatformFunds",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectId",
+				"type": "uint256"
+			}
+		],
+		"name": "getMilestoneAmounts",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "platformFunds",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "projectCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "projects",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "client",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "executor",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "currentMilestone",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "isCompleted",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "isCancelled",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "isFunded",
+				"type": "bool"
+			},
+			{
+				"internalType": "contract IERC20",
+				"name": "token",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
