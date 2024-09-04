@@ -11,7 +11,7 @@ export const useTron = () => {
   const { setConnectedNetwork, resetConnection, address, connectedNetwork } = useUserStore();
 
   /**
-   * Effect to restore TronLink connection if it's already connected.
+   * Effect to restore Tron connection if it's already connected.
    */
   useEffect(() => {
     if (connectedNetwork === 'tron' && address && window.tronWeb && !tronWeb) {
