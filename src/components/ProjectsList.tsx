@@ -1,24 +1,51 @@
-import React, { useEffect } from 'react';
-import { useBlockchain } from '../context/BlockchainProvider';
+import React, { useEffect, useState } from 'react';
 import { Project } from '../types';
+import { useBlockchain } from '../hooks/useBlockchain';
 
 const ProjectsList: React.FC = () => {
-  const { projects } = useBlockchain();
+  const { contractService } = useBlockchain();
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // ...
-  }, []);
+    const fetchProjects = async () => {
+      if (contractService) {
+        try {
+          setLoading(true);
+          const fetchedProjects = await contractService.getProjects(0, 10);
+          console.log('Fetched projects:', fetchedProjects);
+          setProjects(fetchedProjects);
+        } catch (error) {
+          console.error('Error fetching projects:', error);
+          setError('Failed to load projects');
+        } finally {
+          console.log('Finished fetching projects');
+          setLoading(false);
+        }
+      }
+    };
+    fetchProjects();
+  }, [contractService]);
+
+  if (loading) {
+    return <p>Loading projects...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div>
-      {projects.map((project: Project, index: number) => (
-        <div key={index} className="p-4 border mb-2">
-          <h2 className="text-lg font-bold">Project {index + 1}</h2>
-          <p>Client: {project.client}</p>
-          <p>Executor: {project.executor}</p>
-          
-        </div>
-      ))}
+      <h2>Projects List</h2>
+      <ul>
+        {projects.map((project, index) => (
+          <li key={index}>
+            {project.executor} - {project.totalAmount.toString()}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
