@@ -4,6 +4,7 @@ import App from './App.tsx';
 import './styles/main.css';
 import { BlockchainProvider } from './context/BlockchainProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import './i18n.ts';
 
 const queryClient = new QueryClient();
 
