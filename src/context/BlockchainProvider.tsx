@@ -8,7 +8,6 @@ import { useContractService } from '../hooks/useContractService';
 import { IBlockchainContractService } from '../types';
 import { useUserStore } from '../store/useUserStore';
 import { useErrorHandler } from '../hooks/useErrorHandler';
-import { useFlashMessage } from '../hooks/useFlashMessage';
 import capitalize from '../helpers/capitalize';
 
 /**
@@ -41,12 +40,10 @@ export const BlockchainProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const { tronWeb, connectTron } = useTron();
   const { t } = useTranslation();
   const { handleError } = useErrorHandler();
-  const { showFlashMessage } = useFlashMessage();
 
   // Translation keys
   const translationErrors = 'blockchain_provider.errors';
-  const translationWarnings = 'blockchain_provider.warnings';
-  const translationNotifications = 'blockchain_provider.notifications';
+
   /**
    * Effect to restore the user's connected network and address from Zustand state on component mount.
    * Ensures the appropriate provider (Ethereum or Tron) is initialized, or resets the connection if invalid.
@@ -55,8 +52,6 @@ export const BlockchainProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     // Skip if no network or address is available
     // No network or address available to restore, skipping reset
     if (!connectedNetwork || !address) return;
-    
-    showFlashMessage(t(`${translationNotifications}.restoring_connection`, { account: address }));
 
     // Handle Ethereum restoration
     if (connectedNetwork === 'ethereum') {
@@ -77,9 +72,8 @@ export const BlockchainProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
 
     // Reset connection if none of the conditions are met
-    showFlashMessage(t(`${translationWarnings}.invalid_provider_state`), 'warning');
     resetConnection();
-  }, [address, connectedNetwork, provider, resetConnection, setConnectedNetwork, showFlashMessage, t, tronWeb]);
+  }, [address, connectedNetwork, provider, resetConnection, setConnectedNetwork, t, tronWeb]);
 
   /**
    * Memoized function for switching between networks (Ethereum or Tron).

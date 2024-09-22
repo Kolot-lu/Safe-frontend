@@ -1,7 +1,7 @@
 import React from 'react';
 import { useBlockchain } from '../hooks/useBlockchain';
 import { useUserStore } from '../store/useUserStore';
-import { useToast } from '../store/useToast';
+import { useToast } from '../hooks/useToast';
 
 const ConnectWallet: React.FC = () => {
   const { connectEthereum, connectTron, switchNetwork, provider, tronWeb } = useBlockchain();
