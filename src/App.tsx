@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import MainLayout from './components/Layout/Main/MainLayout';
 import ConnectWallet from './components/ConnectWallet';
-import ProjectsList from './components/ProjectsList';
+import HomePage from './pages/Home';
+import CreateProject from './pages/CreateProject';
+import ProjectDetails from './pages/ProjectDetails';
 
 const App: React.FC = () => {
-
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-      <ConnectWallet />
-      <ProjectsList />
-    </div>
+    <MainLayout>
+      <MainLayout.Header>
+        <ConnectWallet />
+      </MainLayout.Header>
+      <MainLayout.Body>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/create-project" element={<CreateProject />} />
+          <Route path="/project/:id" element={<ProjectDetails />} />
+        </Routes>
+        </MainLayout.Body>
+    </MainLayout>
   );
 };
 
