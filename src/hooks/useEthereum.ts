@@ -1,6 +1,9 @@
 import { useState, useCallback, useEffect } from 'react';
 import { BrowserProvider } from 'ethers';
 import { useUserStore } from '../store/useUserStore';
+import { useErrorHandler } from './useErrorHandler';
+import { useTranslation } from 'react-i18next';
+import { useFlashMessage } from './useFlashMessage';
 
 /**
  * Interface describing the Ethereum provider with event handling.
@@ -22,6 +25,14 @@ export const useEthereum = () => {
   const ethereum = window.ethereum as unknown as EthereumProviderWithEvents;
   const [provider, setProvider] = useState<BrowserProvider | null>(null);
   const { setConnectedNetwork, resetConnection, address, connectedNetwork } = useUserStore();
+  const { t } = useTranslation();
+  const { handleError } = useErrorHandler();
+  const { showFlashMessage } = useFlashMessage();
+
+  // Translation keys
+  const translationErrors = 'wallets.metamask.errors';
+  const translationWarnings = 'wallets.metamask.warnings';
+  const translationNotifications = 'wallets.metamask.notifications';
 
   /**
    * Effect to restore the Ethereum provider only if necessary.
@@ -37,13 +48,14 @@ export const useEthereum = () => {
     // Listen for account changes or disconnection
     const handleAccountsChanged = (accounts: string[]) => {
       if (accounts.length === 0) {
-        console.log('MetaMask account disconnected');
+        showFlashMessage(t(`${translationWarnings}.account_disconnected`), 'warning');
         resetConnection(); // Call reset when account is disconnected
       }
     };
 
     const handleDisconnect = () => {
       console.log('MetaMask disconnected');
+      showFlashMessage(t(`${translationWarnings}.disconnected`), 'warning');
       resetConnection(); // Call reset when MetaMask is disconnected
     };
 
@@ -60,7 +72,7 @@ export const useEthereum = () => {
         ethereum.removeListener('disconnect', handleDisconnect);
       }
     };
-  }, [address, connectedNetwork, ethereum, provider, resetConnection]);
+  }, [address, connectedNetwork, ethereum, provider, resetConnection, showFlashMessage, t]);
 
   /**
    * Attempts to connect to the Ethereum wallet using MetaMask.
@@ -81,21 +93,22 @@ export const useEthereum = () => {
           setProvider(browserProvider);
           setConnectedNetwork('ethereum', accounts[0]);
 
-          console.log(`Connected to account: ${accounts[0]}`, 'ethereum');
+          showFlashMessage(t(`${translationNotifications}.connected`, { account: accounts[0] }), 'success');
         } else {
-          console.warn('No Ethereum accounts found.');
+          showFlashMessage(t(`${translationErrors}.no_accounts`), 'warning');
         }
       } catch (error: unknown) {
         if (error instanceof Error) {
-          console.error(`Ethereum connection error: ${error.message}`);
+          handleError(error, true, t(`${translationErrors}.connection_error`, { error: error.message }));
           return error.message;
         }
-        console.error('Unknown Ethereum connection error');
+
+        handleError(t(`${translationErrors}.unknown_error`));
       }
     } else {
-      console.error('MetaMask is not installed!');
+      handleError(t(`${translationErrors}.not_installed`));
     }
-  }, [setConnectedNetwork]);
+  }, [handleError, setConnectedNetwork, showFlashMessage, t]);
 
   return { provider, connectEthereum };
 };
