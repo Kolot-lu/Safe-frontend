@@ -32,7 +32,7 @@ export const useTron = () => {
 
     const handleAccountChanged = (newAddress: string) => {
       if (!newAddress) {
-        showFlashMessage(t(`${translationWarnings}.account_disconnected`));
+        showFlashMessage(t(`${translationWarnings}.account_disconnected`), 'warning');
         resetConnection(); // Reset connection when account is disconnected
       } else {
         setConnectedNetwork('tron', newAddress);
@@ -41,7 +41,7 @@ export const useTron = () => {
     };
 
     const handleDisconnect = () => {
-      showFlashMessage(t(`${translationWarnings}.disconnected`));
+      showFlashMessage(t(`${translationWarnings}.disconnected`), 'warning');
       resetConnection(); // Reset connection when TronLink is disconnected
     };
 
@@ -68,7 +68,11 @@ export const useTron = () => {
     if (window.tronWeb && window.tronWeb.ready) {
       setTronWeb(window.tronWeb);
       setConnectedNetwork('tron', window.tronWeb.defaultAddress.base58);
-      showFlashMessage(t(`${translationNotifications}.connected`, { account: window.tronWeb.defaultAddress.base58 }));
+      
+      showFlashMessage(
+        t(`${translationNotifications}.connected`, { account: window.tronWeb.defaultAddress.base58 }),
+        'success'
+      );
     } else {
       handleError(t(`${translationErrors}.not_installed`));
     }
