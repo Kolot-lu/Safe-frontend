@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 /**
  * @interface UserState
@@ -52,7 +52,7 @@ export const useUserStore = create(
     }),
     {
       name: 'user-store',
-      getStorage: () => localStorage,
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );
