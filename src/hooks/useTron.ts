@@ -1,6 +1,9 @@
 import { useState, useCallback, useEffect } from 'react';
 import TronWeb from 'tronweb';
 import { useUserStore } from '../store/useUserStore';
+import { useErrorHandler } from './useErrorHandler';
+import { useTranslation } from 'react-i18next';
+import { useFlashMessage } from './useFlashMessage';
 
 /**
  * Hook to manage Tron wallet connection.
@@ -9,6 +12,14 @@ import { useUserStore } from '../store/useUserStore';
 export const useTron = () => {
   const [tronWeb, setTronWeb] = useState<TronWeb | null>(null);
   const { setConnectedNetwork, resetConnection, address, connectedNetwork } = useUserStore();
+  const { t } = useTranslation();
+  const { handleError } = useErrorHandler();
+  const { showFlashMessage } = useFlashMessage();
+
+  // Translation keys
+  const translationErrors = 'wallets.tronweb.errors';
+  const translationWarnings = 'wallets.tronweb.warnings';
+  const translationNotifications = 'wallets.tronweb.notifications';
 
   /**
    * Effect to restore Tron connection if it's already connected.
@@ -16,28 +27,28 @@ export const useTron = () => {
   useEffect(() => {
     if (connectedNetwork === 'tron' && address && window.tronWeb && !tronWeb) {
       setTronWeb(window.tronWeb);
-      console.log(`Restored TronLink connection for account: ${address}`);
+      showFlashMessage(t(`${translationNotifications}.restored_connection`, { account: address }));
     }
 
     const handleAccountChanged = (newAddress: string) => {
       if (!newAddress) {
-        console.log('TronLink account disconnected');
+        showFlashMessage(t(`${translationWarnings}.account_disconnected`));
         resetConnection(); // Reset connection when account is disconnected
       } else {
         setConnectedNetwork('tron', newAddress);
-        console.log(`Switched to account: ${newAddress}`);
+        showFlashMessage(t(`${translationNotifications}.account_changed`, { account: newAddress }));
       }
     };
 
     const handleDisconnect = () => {
-      console.log('TronLink disconnected');
+      showFlashMessage(t(`${translationWarnings}.disconnected`));
       resetConnection(); // Reset connection when TronLink is disconnected
     };
 
     // Subscribe to TronLink events
     if (window.tronWeb && window.tronWeb.ready) {
-        window.tronWeb.on('addressChanged', handleAccountChanged);
-        window.tronWeb.on('disconnect', handleDisconnect);
+      window.tronWeb.on('addressChanged', handleAccountChanged);
+      window.tronWeb.on('disconnect', handleDisconnect);
     }
 
     // Cleanup event listeners on unmount
@@ -47,8 +58,7 @@ export const useTron = () => {
         window.tronWeb.removeListener('disconnect', handleDisconnect);
       }
     };
-  }, [address, connectedNetwork, tronWeb, resetConnection, setConnectedNetwork]);
-
+  }, [address, connectedNetwork, tronWeb, resetConnection, setConnectedNetwork, showFlashMessage, t]);
 
   /**
    * Attempts to connect to the Tron wallet using TronLink.
@@ -57,13 +67,12 @@ export const useTron = () => {
   const connectTron = useCallback((): void => {
     if (window.tronWeb && window.tronWeb.ready) {
       setTronWeb(window.tronWeb);
-      setConnectedNetwork("tron", window.tronWeb.defaultAddress.base58);
-
-      console.log(`Connected to TronLink with account: ${window.tronWeb.defaultAddress.base58}`);
+      setConnectedNetwork('tron', window.tronWeb.defaultAddress.base58);
+      showFlashMessage(t(`${translationNotifications}.connected`, { account: window.tronWeb.defaultAddress.base58 }));
     } else {
-      console.error('TronLink is not installed or not ready!');
+      handleError(t(`${translationErrors}.not_installed`));
     }
-  }, [setConnectedNetwork]);
+  }, [handleError, setConnectedNetwork, showFlashMessage, t]);
 
   return { tronWeb, connectTron };
 };
