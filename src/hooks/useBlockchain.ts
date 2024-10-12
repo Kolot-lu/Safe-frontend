@@ -14,7 +14,7 @@ export const useBlockchain = (): BlockchainContextProps => {
   const { t } = useTranslation();
   const { handleError } = useErrorHandler();
 
-  if (!context) throw handleError(new Error(t('hooks.useBlockchain.errors.no_provider')));
-  
+  if (!context) throw handleError(new Error(t('hooks.use_blockchain.errors.no_provider')));
+
   return context;
 };
