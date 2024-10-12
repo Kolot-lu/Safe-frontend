@@ -1,3 +1,54 @@
 {
-    "title": "Hello in English"
+  "title": "Hello in English",
+  "wallets": {
+    "tronweb": {
+      "errors": {
+        "not_installed": "TronLink is not installed or not ready!"
+      },
+      "warnings": {
+        "disconnected": "TronLink is disconnected!",
+        "account_disconnected": "TronLink account is disconnected!"
+      },
+      "notifications": {
+        "connected": "Connected to TronLink with account: {account}",
+        "account_changed": "TronLink account changed to: {account}",
+        "restored_connection": "TronLink connection restored with account: {account}"
+      }
+    },
+    "metamask": {
+      "errors": {
+        "not_installed": "MetaMask is not installed!",
+        "connection_failed": "Failed to connect to MetaMask!",
+        "connection_error": "MetaMask connection error: {error}",
+        "unknown_error": "Unknown MetaMask connection error"
+      },
+      "warnings": {
+        "disconnected": "MetaMask is disconnected!",
+        "account_disconnected": "MetaMask account is disconnected!",
+        "no_accounts": "No Ethereum accounts found!"
+      },
+      "notifications": {
+        "connected": "Connected to ethereum by MetaMask with account: {account}"
+      }
+    }
+  },
+  "blockchain_provider": {
+    "errors": {
+      "no_provider": "BlockchainProvider is not provided!",
+      "missing_provider": "{network} provider is missing"
+    },
+    "warnings": {
+      "invalid_provider_state": "Invalid provider state, calling resetConnection"
+    },
+    "notifications": {
+      "restoring_connection": "Restoring connection to blockchain.., {account}"
+    }
+  },
+  "hooks": {
+    "use_blockchain": {
+      "errors": {
+        "no_provider": "useBlockchain must be used within a BlockchainProvider!"
+      }
+    }
+  }
 }
