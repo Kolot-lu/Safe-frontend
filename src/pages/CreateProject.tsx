@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CreateProject: React.FC = () => {
+const CreateProjectPage: React.FC = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Create New Project</h1>
@@ -11,4 +11,4 @@ const CreateProject: React.FC = () => {
   );
 };
 
-export default CreateProject;
+export default CreateProjectPage;

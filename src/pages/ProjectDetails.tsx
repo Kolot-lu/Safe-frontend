@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-const ProjectDetails: React.FC = () => {
+const ProjectDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   return (
@@ -12,4 +12,4 @@ const ProjectDetails: React.FC = () => {
   );
 };
 
-export default ProjectDetails;
+export default ProjectDetailsPage;
