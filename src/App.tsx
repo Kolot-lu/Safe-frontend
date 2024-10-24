@@ -1,24 +1,22 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import MainLayout from './components/Layout/Main/MainLayout';
-import ConnectWallet from './components/ConnectWallet';
-import HomePage from './pages/Home';
-import CreateProject from './pages/CreateProject';
-import ProjectDetails from './pages/ProjectDetails';
+import { mainMenu } from './config/menu';
+import Header from './components/Header/Header';
 
 const App: React.FC = () => {
   return (
     <MainLayout>
       <MainLayout.Header>
-        <ConnectWallet />
+        <Header.Main />
       </MainLayout.Header>
       <MainLayout.Body>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/create-project" element={<CreateProject />} />
-          <Route path="/project/:id" element={<ProjectDetails />} />
+          {mainMenu.map((item) => (
+            <Route key={item.path} path={item.path} element={<item.page />} />
+          ))}
         </Routes>
-        </MainLayout.Body>
+      </MainLayout.Body>
     </MainLayout>
   );
 };
