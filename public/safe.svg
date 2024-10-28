@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="120" preserveAspectRatio="xMidYMid" version="1.0" viewBox="0 0 90 90"
+   xmlns="http://www.w3.org/2000/svg" zoomAndPan="magnify">
+   <path
+      d="m5.7284 61.94q22.193 1.2149 30.049 1.2149 1.8629 0 2.9158-1.0529 1.1339-1.1339 1.1339-2.9968v-7.2896h-18.629q-8.5045 0-12.392-3.8068-3.8068-3.8878-3.8068-12.392v-2.4299q0-8.5045 3.8068-12.311 3.8878-3.8878 12.392-3.8878h28.429v11.339h-25.19q-4.8597 0-4.8597 4.8597v1.6199q0 4.8597 4.8597 4.8597h14.579q7.9375 0 11.663 3.7258 3.7258 3.7258 3.7258 11.663v4.0498q0 7.9375-3.7258 11.663-3.7258 3.7258-11.663 3.7258-4.1308 0-8.7475-0.16199l-7.4516-0.32398q-8.2615-0.40498-17.09-1.1339z"
+      fill="#fff" stroke-width=".67497" aria-label="S" />
+   <defs>
+      <clipPath id="b">
+         <path d="m343.02 81.59h25.762v25.762h-25.762z" />
+      </clipPath>
+      <linearGradient id="a" x1="-2.9079e-6" x2="256" y1="128" y2="128"
+         gradientTransform="matrix(.10063 0 0 .10063 343.02 81.592)" gradientUnits="userSpaceOnUse">
+         <stop stop-color="#ff3030" offset="0" />
+         <stop stop-color="#ff904c" offset="1" />
+      </linearGradient>
+   </defs>
+   <g transform="matrix(.70012 0 0 .70012 -174.87 -.73397)" clip-path="url(#b)">
+      <path d="m343.02 81.59v25.762h25.762v-25.762z" fill="url(#a)" />
+   </g>
+</svg>
