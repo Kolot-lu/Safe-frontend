@@ -2,6 +2,7 @@ import React from 'react';
 import { useBlockchain } from '../hooks/useBlockchain';
 import { useUserStore } from '../store/useUserStore';
 import { useToast } from '../hooks/useToast';
+import Button from './ui/Button';
 
 const ConnectWallet: React.FC = () => {
   const { connectEthereum, connectTron, switchNetwork, provider, tronWeb } = useBlockchain();
@@ -38,9 +39,9 @@ const ConnectWallet: React.FC = () => {
           )}
         </>
       )}
-      <button onClick={() => openToast()} className="m-2 p-2 bg-gray-400">
+      <Button onClick={() => openToast()}>
         Test
-      </button>
+      </Button>
     </div>
   );
 };
