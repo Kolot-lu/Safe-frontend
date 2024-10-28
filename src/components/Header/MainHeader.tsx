@@ -3,6 +3,8 @@ import { Sun, Moon } from 'lucide-react';
 import { mainMenu } from '../../config/menu';
 import Button from '../ui/Button';
 import { useTheme } from '../../hooks/useTheme';
+import SafeLogotype from "../../assets/logos/safe-logotype.svg?react";
+
 
 /**
  * @component Main Header Component
@@ -12,8 +14,10 @@ const MainHeader: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <nav className="w-full flex items-center justify-between space-x-2 p-4 bg-gray-100 dark:bg-gray-800">
-      <nav>Safe Logo</nav>
+    <nav className="w-full flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-800">
+      <nav>
+        <SafeLogotype className={"w-[85px] h-auto text-black dark:text-white"} />
+      </nav>
 
       <nav className="flex space-x-4">
         {mainMenu
