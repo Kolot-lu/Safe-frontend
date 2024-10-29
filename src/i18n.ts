@@ -18,8 +18,13 @@ const resources = {
 };
 
 /**
+ * List of supported languages.
+ */
+export const languages: string[] = ['en', 'fr'];
+
+/**
  * i18n configuration for initializing internationalization.
- * 
+ *
  * Key points:
  * - `use(LanguageDetector)`: Automatically detects the user's language preference (browser or system).
  * - `use(initReactI18next)`: Enables i18n for React applications.
@@ -30,14 +35,14 @@ const resources = {
  * - `debug`: Enables console logs for debugging (set to `true` in development).
  */
 i18n
-  .use(LanguageDetector) // Automatically detect the user's preferred language
-  .use(initReactI18next) // Initialize React-specific i18next functionality
+  .use(LanguageDetector)      // Automatically detect the user's preferred language
+  .use(initReactI18next)      // Initialize React-specific i18next functionality
   .init({
-    fallbackLng: 'en', // Fallback language if the user's language is not supported
-    supportedLngs: ['en', 'fr'], // List of supported languages
-    load: 'all', // Load all translations in the background, regardless of the selected language
-    debug: true, // Debug mode for development, disable in production
-    resources, // Language resource files containing the translations
+    fallbackLng: 'en',        // Fallback language if the user's language is not supported
+    supportedLngs: languages, // List of supported languages
+    load: 'all',              // Load all translations in the background, regardless of the selected language
+    debug: true,              // Debug mode for development, disable in production
+    resources,                // Language resource files containing the translations
   });
 
 export default i18n;
