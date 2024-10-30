@@ -4,25 +4,26 @@ import { Link, LinkProps } from 'react-router-dom';
 
 // Define button color variants
 const buttonVariants = {
-  primary: 'bg-blue-500 hover:bg-blue-700 text-white',
-  secondary: 'bg-gray-500 hover:bg-gray-700 text-white',
-  danger: 'bg-red-500 hover:bg-red-700 text-white',
+  primary: 'bg-gray-200 hover:bg-gray-300 dark:bg-dark-200 dark:hover:bg-dark-100 ',
+  gradient: 'bg-gradient-to-r from-primary-redLite to-primary-orangeLite hover:from-primary-orangeLite hover:to-primary-orangeLite text-white',
+  outline: 'border border-dark-100 text-dark-600 hover:bg-dark-100 hover:text-white dark:border-dark-200 dark:text-white dark:hover:bg-dark-100',
+  ghost: 'bg-transparent text-dark-600 hover:bg-gray-200 dark:text-white dark:hover:bg-dark-200',
+  link: 'bg-transparent text-text-light hover:text-black dark:text-text-dark dark:hover:text-white',
 };
 
 // Define button sizes
 const buttonSizes = {
-  small: 'py-2 px-4 text-sm',
-  medium: 'py-2 px-6 text-base',
-  large: 'py-3 px-8 text-lg',
+  small: 'h-9 px-3 py-2 text-sm',
+  medium: 'h-10 px-4 py-2 text-base',
+  large: 'h-11 px-8 py-2 text-base',
 };
 
 // Base styles for the button, including gap and SVG styling
 const buttonBaseStyles = cn(
   'inline-flex items-center justify-center gap-2',
-  'rounded-md',
-  'font-medium',
+  'rounded',
   'transition-all',
-  '[&_svg]:w-4 [&_svg]:shrink-0 [&_svg]:h-auto'
+  '[&_svg]:w-4 [&_svg]:h-4 [&_svg]:shrink-0 [&_svg]:h-auto',
 );
 
 interface ButtonProps extends React.ComponentProps<'button'> {
@@ -36,6 +37,10 @@ interface ButtonProps extends React.ComponentProps<'button'> {
    * @default 'medium'
    */
   size?: keyof typeof buttonSizes;
+  /**
+   * If this is true, the button will be round.
+   */
+  rounded?: boolean;
   /**
    * If true, the button will render as a link (`<a>` element) using `react-router-dom`'s `<Link>` component.
    */
@@ -63,6 +68,7 @@ interface ButtonProps extends React.ComponentProps<'button'> {
 const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'medium',
+  rounded = false,
   asLink = false,
   to,
   children,
@@ -70,7 +76,13 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   // Combine base styles with variant and size-specific styles
-  const classes = cn(buttonBaseStyles, buttonVariants[variant], buttonSizes[size], className);
+  const classes = cn(
+    buttonBaseStyles,
+    buttonVariants[variant],
+    buttonSizes[size],
+    rounded && 'rounded-full w-10 h-10',
+    className
+  );
 
   // If `asLink` is true, render the button as a <Link> component
   if (asLink && to) {
