@@ -81,7 +81,7 @@ const Toast = ({ id, message, type, duration = 3000, closable = true, position =
   return (
     <div
       className={cn(
-        'toast-item relative px-5 py-6 rounded-lg backdrop-blur-xl bg-white/30 shadow-lg border transition-all duration-300 ease-in-out transform',
+        'toast-item relative px-5 py-6 rounded-lg backdrop-blur-xl bg-white/30 dark:bg-dark-500/30 shadow-lg border border-border-light dark:border-border-dark transition-all duration-300 ease-in-out transform',
         isVisible ? getFinalTransform() + ' opacity-100' : getInitialTransform() + ' opacity-0',
         type && typeClasses[type]
       )}
@@ -94,7 +94,7 @@ const Toast = ({ id, message, type, duration = 3000, closable = true, position =
         <button
           onClick={handleClose}
           aria-label="Close notification"
-          className="absolute top-1.5 right-1.5 bg-transparent border hover:rotate-90 duration-300 p-0.5 focus:outline-none focus:ring focus:ring-offset-2 focus:ring-gray-400 rounded-full"
+          className="absolute -top-1.5 -right-1.5 bg-white dark:bg-dark-500 border border-border-light dark:border-border-dark hover:rotate-90 duration-300 p-0.5 rounded-full"
         >
           <X className="w-3 h-3" />
         </button>
