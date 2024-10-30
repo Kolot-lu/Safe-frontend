@@ -42,6 +42,8 @@ const ConnectWallet: React.FC = () => {
       <Button onClick={() => openToast()}>
         Test
       </Button>
+
+      
     </div>
   );
 };

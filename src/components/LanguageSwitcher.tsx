@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { languages } from '../i18n';
 import Dropdown from './ui/Dropdown/Dropdown';
+import Button from './ui/Button';
 
 
 /**
@@ -18,7 +19,7 @@ const LanguageSwitcher: React.FC = () => {
   return (
     <Dropdown>
       <Dropdown.Trigger>
-        <span>{i18n.language}</span>
+        <Button variant="ghost" rounded size="small">{i18n.language}</Button>
       </Dropdown.Trigger>
       <Dropdown.Content>
         {languages.map((language) => (
