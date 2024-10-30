@@ -6,8 +6,9 @@ export default {
       colors: {
         primary: {
           red: '#ff3030',
+          redLite: '#FF5F5F',
           orange: '#ff904c',
-          gradient: 'linear-gradient(135deg, #ff3030, #ff904c)',
+          orangeLite: '#FFA36A',
         },
         dark: {
           50: '#9BA8BE',
@@ -29,7 +30,7 @@ export default {
         },
         border: {
           light: '#e0e0e0',
-          dark: '#3a3a3a',
+          dark: '#566377',
         },
         focus: {
           light: '#ff904c',
