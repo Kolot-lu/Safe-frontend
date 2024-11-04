@@ -1,5 +1,6 @@
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { DropdownContext } from './Dropdown';
+import { cn } from '../../../utils/cn';
 
 /**
  * @component DropdownContent
@@ -27,8 +28,10 @@ export const DropdownContent: React.FC<{ closeOnClisk?: boolean; children: React
         onClick={closeOnClisk ? context.closeDropdown : undefined}
         role="menu"
         aria-labelledby="dropdown-trigger"
-        className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 
-          ${context.isOpen ? 'animate-fadeIn' : 'animate-fadeOut'}`}
+        className={cn(
+          'absolute right-0 mt-2 w-fit rounded-md flex flex-col gap-2 p-3 bg-gray-100/30 dark:bg-dark-400/30 backdrop-blur-xl border border-border-light dark:border-border-dark',
+          context.isOpen ? 'animate-fadeIn' : 'animate-fadeOut'
+        )}
       >
         {children}
       </div>
