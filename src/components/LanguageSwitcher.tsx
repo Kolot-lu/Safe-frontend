@@ -23,16 +23,15 @@ const LanguageSwitcher: React.FC = () => {
       </Dropdown.Trigger>
       <Dropdown.Content>
         {languages.map((language) => (
-          <button
+          <Button
             key={language}
             onClick={() => changeLanguage(language)}
             role="menuitem"
-            className={`block w-full px-4 py-2 text-left ${
-              i18n.resolvedLanguage === language ? 'bg-blue-500 text-white' : 'bg-white text-black dark:bg-gray-800 dark:text-white'
-            }`}
+            size='small'
+            variant={i18n.resolvedLanguage === language ? 'primary' : 'ghost'}
           >
             {language}
-          </button>
+          </Button>
         ))}
       </Dropdown.Content>
     </Dropdown>
