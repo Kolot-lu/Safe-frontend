@@ -8,5 +8,5 @@ import { cn } from '../../../utils/cn';
  * @returns {JSX.Element} The rendered <main> element with combined styles.
  */
 export const Body: React.FC<React.ComponentProps<'main'>> = (props) => {
-  return <main {...props} className={cn(props.className, 'flex justify-center w-full min-w-[600px]')} role="main" />;
+  return <main {...props} className={cn(props.className, 'flex justify-center w-full')} role="main" />;
 };
