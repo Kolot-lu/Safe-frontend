@@ -72,10 +72,10 @@ const Toast = ({ id, message, type, duration = 3000, closable = true, position =
 
   // Define styles based on the type of the toast
   const typeClasses = {
-    success: 'border-l-1.5 border-l-green-500',
-    error: 'border-l-1.5 border-l-red-500',
-    info: 'border-l-1.5 border-l-blue-500',
-    warning: 'border-l-1.5 border-l-yellow-500',
+    success: 'border-l-1.5 border-l-green-500 dark:border-l-green-500',
+    error: 'border-l-1.5 border-l-red-500 dark:border-l-red-500',
+    info: 'border-l-1.5 border-l-blue-500 dark:border-l-blue-500',
+    warning: 'border-l-1.5 border-l-yellow-500 dark:border-l-yellow-500',
   };
 
   return (
