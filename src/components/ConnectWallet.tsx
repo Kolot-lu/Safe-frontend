@@ -14,7 +14,7 @@ const ConnectWallet: React.FC = () => {
   }
 
   return (
-    <div className="flex space-x-4">
+    <div className="flex flex-col space-x-4 flex-wrap">
       {!provider && !tronWeb && !connectedNetwork ? (
         <>
           <button onClick={connectEthereum} className="m-2 p-2 bg-blue-400">
