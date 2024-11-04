@@ -16,7 +16,7 @@ export const Header: React.FC<React.ComponentProps<'header'>> = (props) => {
   return (
     <header
       {...props}
-      className={cn(props.className, 'container mx-auto')}
+      className={cn(props.className, 'w-full max-w-screen-2xl p-3 mx-auto')}
       aria-label={t(`${translationAccessibility}.label`)}
     />
   );
