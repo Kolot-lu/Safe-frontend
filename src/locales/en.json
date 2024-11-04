@@ -15,6 +15,27 @@
           }
         }
       }
+    },
+    "connect_wallet": {
+      "metamask": {
+        "label": "MetaMask",
+        "accessibility": {
+          "label": "Connect with MetaMask"
+        }
+      },
+      "tronweb": {
+        "label": "TronLink",
+        "warnings": {
+          "in_development": "The tron ​​wallet is still in development."
+        },
+        "accessibility": {
+          "label": "Connect with TronLink (in development)"
+        }
+      },
+      "accessibility": {
+        "connect": "Open wallet connection options"
+      },
+      "connect": "Connect"
     }
   },
   "wallets": {
