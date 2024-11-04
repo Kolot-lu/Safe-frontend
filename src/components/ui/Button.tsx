@@ -23,7 +23,7 @@ const buttonBaseStyles = cn(
   'inline-flex items-center justify-center gap-2',
   'rounded',
   'transition-all',
-  '[&_svg]:w-4 [&_svg]:h-4 [&_svg]:shrink-0 [&_svg]:h-auto',
+  '[&_svg]:w-4 [&_svg]:shrink-0 [&_svg]:h-auto',
 );
 
 interface ButtonProps extends React.ComponentProps<'button'> {
