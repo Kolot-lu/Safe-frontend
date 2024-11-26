@@ -8,6 +8,9 @@ import { useErrorHandler } from './useErrorHandler';
  * Throws an error if the hook is used outside of BlockchainProvider.
  *
  * @returns {BlockchainContextProps} Blockchain context properties and actions.
+ * 
+ * @example
+ * const { provider, tronWeb, contractService, connectEthereum, connectTron, switchNetwork } = useBlockchain();
  */
 export const useBlockchain = (): BlockchainContextProps => {
   const context = useContext(BlockchainContext);
