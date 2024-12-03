@@ -13,14 +13,16 @@ import Button from './ui/Button';
  *
  * @returns {JSX.Element} The rendered ThemeSwitcher component.
  */
-const ThemeSwitcher: React.FC = () => {
+const ThemeSwitcher: React.FC<{ className?: string }> = ({ className }) => {
   const { theme, toggleTheme } = useTheme();
 
   return (
     <Button
+      size="small"
       rounded
       onClick={toggleTheme}
       aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+      className={className}
     >
       {theme === 'light' ? <Moon /> : <Sun />}
     </Button>

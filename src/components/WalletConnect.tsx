@@ -21,7 +21,7 @@ const translationWallets = 'components.connect_wallet';
  *
  * @returns {JSX.Element} Rendered WalletConnect component.
  */
-const WalletConnect: React.FC = () => {
+const WalletConnect: React.FC<{className?: string}> = ({className}) => {
   const { connectEthereum, provider } = useBlockchain();
   const { address, connectedNetwork } = useUserStore();
   const { showToast } = useToast();
@@ -41,9 +41,9 @@ const WalletConnect: React.FC = () => {
   return (
     <>
       {provider && address && connectedNetwork ? (
-        <ConnectedWallet address={address} />
+        <ConnectedWallet address={address} className={className} />
       ) : (
-        <WalletConnectionOptions connectEthereum={connectEthereum} openToast={openToast} />
+        <WalletConnectionOptions connectEthereum={connectEthereum} openToast={openToast} className={className} />
       )}
     </>
   );
@@ -58,9 +58,9 @@ export default WalletConnect;
  * @param {string} address - The wallet address to display.
  * @returns {JSX.Element} The rendered connected wallet button.
  */
-const ConnectedWallet: React.FC<{ address: string }> = ({ address }) => {
+const ConnectedWallet: React.FC<{ address: string; className?: string }> = ({ address, className, ...props }) => {
   return (
-    <Button variant="outline" size="small" aria-label={`Connected wallet: ${shortenAddress(address)}`}>
+    <Button variant="outline" size="small" aria-label={`Connected wallet: ${shortenAddress(address)}`} className={className} {...props}>
       <User aria-hidden="true" /> <span className='hidden md:block'>{shortenAddress(address)}</span>
     </Button>
   );
@@ -77,13 +77,14 @@ const ConnectedWallet: React.FC<{ address: string }> = ({ address }) => {
 const WalletConnectionOptions: React.FC<{
   connectEthereum: () => void;
   openToast: () => void;
-}> = ({ connectEthereum, openToast }) => {
+  className?: string;
+}> = ({ connectEthereum, openToast, className }) => {
   const { t } = useTranslation();
 
   return (
     <Dropdown>
       <Dropdown.Trigger>
-        <Button variant="outline" size="small" aria-label={t(`${translationWallets}.accessibility.connect`)}>
+        <Button variant="outline" size="small" aria-label={t(`${translationWallets}.accessibility.connect`)} className={className}>
           <Wallet aria-hidden="true" /> {t(`${translationWallets}.connect`)}
         </Button>
       </Dropdown.Trigger>

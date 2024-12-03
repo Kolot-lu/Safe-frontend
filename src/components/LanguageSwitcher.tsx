@@ -4,12 +4,11 @@ import { languages } from '../i18n';
 import Dropdown from './ui/Dropdown/Dropdown';
 import Button from './ui/Button';
 
-
 /**
  * @component LanguageSwitcher
  * @description Component to switch between languages. Uses i18next to manage translations.
  */
-const LanguageSwitcher: React.FC = () => {
+const LanguageSwitcher: React.FC<{ className?: string }> = ({ className }) => {
   const { i18n } = useTranslation();
 
   const changeLanguage = (code: string) => {
@@ -19,7 +18,9 @@ const LanguageSwitcher: React.FC = () => {
   return (
     <Dropdown>
       <Dropdown.Trigger>
-        <Button variant="ghost" rounded size="small">{i18n.language}</Button>
+        <Button variant="ghost" rounded size="small" className={className}>
+          {i18n.language}
+        </Button>
       </Dropdown.Trigger>
       <Dropdown.Content>
         {languages.map((language) => (
@@ -27,7 +28,7 @@ const LanguageSwitcher: React.FC = () => {
             key={language}
             onClick={() => changeLanguage(language)}
             role="menuitem"
-            size='small'
+            size="small"
             variant={i18n.resolvedLanguage === language ? 'primary' : 'ghost'}
           >
             {language}
