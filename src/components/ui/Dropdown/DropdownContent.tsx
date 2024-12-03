@@ -29,7 +29,7 @@ export const DropdownContent: React.FC<{ closeOnClisk?: boolean; children: React
         role="menu"
         aria-labelledby="dropdown-trigger"
         className={cn(
-          'absolute right-0 mt-2 w-fit rounded-md flex flex-col gap-2 p-3 bg-gray-100/30 dark:bg-dark-400/30 backdrop-blur-xl border border-border-light dark:border-border-dark',
+          'absolute right-0 mt-2 w-fit rounded-md flex flex-col gap-2 p-3 bg-gray-100/30 dark:bg-dark-400/30 backdrop-blur-xl border border-border-light dark:border-border-dark z-[100]',
           context.isOpen ? 'animate-fadeIn' : 'animate-fadeOut'
         )}
       >
