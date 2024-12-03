@@ -22,7 +22,6 @@ select:focus,
 [tabindex]:focus:not([tabindex="-1"]) {
   outline: 2px solid rgba(255, 144, 76, 0.8);
   outline-offset: 3px;
-  border-radius: 0.375rem;
 }
 
 .dark button:focus,
@@ -33,5 +32,4 @@ select:focus,
 .dark [tabindex]:focus:not([tabindex="-1"]) {
   outline: 2px solid rgba(108, 121, 142, 0.8);
   outline-offset: 3px;
-  border-radius: 0.375rem;
 }

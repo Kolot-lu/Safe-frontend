@@ -13,9 +13,10 @@ const buttonVariants = {
 
 // Define button sizes
 const buttonSizes = {
-  small: 'h-9 px-3 py-2 text-sm',
-  medium: 'h-10 px-4 py-2 text-base',
-  large: 'h-11 px-8 py-2 text-base',
+  xsmall: 'p-1 text-xs [&_svg]:w-3',
+  small: 'max-h-10 px-3 py-2 text-sm',
+  medium: 'max-h-10 px-4 py-2 text-base',
+  large: 'max-h-11 px-8 py-2 text-base',
 };
 
 // Base styles for the button, including gap and SVG styling
@@ -80,7 +81,7 @@ const Button: React.FC<ButtonProps> = ({
     buttonBaseStyles,
     buttonVariants[variant],
     buttonSizes[size],
-    rounded && 'rounded-full w-10 h-10',
+    rounded && 'rounded-full aspect-square',
     className
   );
 
