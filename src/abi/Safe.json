@@ -55,7 +55,7 @@
 		],
 		"name": "createProject",
 		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -101,7 +101,7 @@
 		],
 		"name": "fundProject",
 		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -192,6 +192,13 @@
 		"type": "event"
 	},
 	{
+		"inputs": [],
+		"name": "withdrawNativeCurrencyFunds",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "contract IERC20",
@@ -218,6 +225,123 @@
 				"internalType": "uint256[]",
 				"name": "",
 				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPlatformFunds",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "nativeFunds",
+				"type": "uint256"
+			},
+			{
+				"internalType": "contract IERC20[]",
+				"name": "tokens",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "amounts",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			}
+		],
+		"name": "getUserProjects",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "client",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "executor",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "totalAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "milestoneAmounts",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "currentMilestone",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "isCompleted",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isCancelled",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isFunded",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "isNativeCurrency",
+						"type": "bool"
+					},
+					{
+						"internalType": "contract IERC20",
+						"name": "token",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "platformFeePercent",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct Safe.Project[]",
+				"name": "userProjects",
+				"type": "tuple[]"
+			},
+			{
+				"internalType": "string[]",
+				"name": "roles",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "nativeCurrencyPlatformFunds",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -314,9 +438,19 @@
 				"type": "bool"
 			},
 			{
+				"internalType": "bool",
+				"name": "isNativeCurrency",
+				"type": "bool"
+			},
+			{
 				"internalType": "contract IERC20",
 				"name": "token",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "platformFeePercent",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
