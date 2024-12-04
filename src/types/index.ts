@@ -8,7 +8,7 @@ export interface Project {
   executor: string;
   totalAmount: bigint;
   currentMilestone: bigint;
-  milestoneAmounts?: bigint[];
+  milestoneAmounts?: string[];
   isCompleted: boolean;
   isCancelled: boolean;
   isFunded: boolean;

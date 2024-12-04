@@ -40,15 +40,17 @@ export class EthereumContractService implements IBlockchainContractService {
 
   /**
    * @method getProjectById
-   * @description Retrieves a project by its ID.
+   * @description Retrieves a project by its ID along with its milestone amounts.
    * @param {number} id - The ID of the project.
    * @returns {Promise<Project>} The project details.
    * @throws Will throw an error if the contract call fails.
    */
   async getProjectById(id: number): Promise<Project> {
     try {
-      const project = await this.contract.projects(id);
-      return this.formatProjectData(project);
+      const projectData = await this.contract.projects(id);
+      // Fetch milestone amounts separately
+      const milestoneAmounts = await this.contract.getMilestoneAmounts(id);
+      return this.formatProjectData(projectData, milestoneAmounts);
     } catch (error) {
       console.error(`Error fetching project with ID ${id}:`, error);
       throw new Error(`Failed to fetch project with ID ${id}`);
@@ -126,21 +128,16 @@ export class EthereumContractService implements IBlockchainContractService {
    * @method formatProjectData
    * @description Formats raw project data from the smart contract.
    * @param {Project} project - The raw project data from the contract.
+   * @param {bigint[]} milestoneAmounts - The milestone amounts in wei.
    * @returns {Project} The formatted project data.
    * @throws Will throw an error if required project data is missing.
    */
-  private formatProjectData(project: Project): Project {
-    if (!project.milestoneAmounts) {
-      throw new Error('Milestone amounts are missing');
-    }
-
+  private formatProjectData(project: Project, milestoneAmounts: bigint[]): Project {
     return {
       client: project.client,
       executor: project.executor,
       totalAmount: BigInt(project.totalAmount),
-      milestoneAmounts:
-        project.milestoneAmounts ??
-        [].map((m: number) => ethers.formatEther(BigInt(m))),
+      milestoneAmounts: milestoneAmounts.map((m: bigint) => ethers.formatEther(m)),
       currentMilestone: BigInt(project.currentMilestone),
       isCompleted: project.isCompleted,
       isCancelled: project.isCancelled,
