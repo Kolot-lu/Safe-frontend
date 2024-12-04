@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useEffect, useMemo } from 'react';
-import { BrowserProvider } from 'ethers';
+import { BrowserProvider, Signer } from 'ethers';
 import TronWeb from 'tronweb';
 import { useTranslation } from 'react-i18next';
 import { useEthereum } from '../hooks/useEthereum';
@@ -17,6 +17,7 @@ export interface BlockchainContextProps {
   provider: BrowserProvider | null;
   tronWeb: TronWeb | null;
   contractService: IBlockchainContractService | null;
+  signer: Signer | null;
   connectEthereum: () => void;
   connectTron: () => void;
   switchNetwork: (network: 'ethereum' | 'tron') => void;
@@ -43,6 +44,19 @@ export const BlockchainProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   // Translation keys
   const translationErrors = 'blockchain_provider.errors';
+
+  // State to hold the Ethereum signer
+  const [signer, setSigner] = React.useState<Signer | null>(null);
+
+  useEffect(() => {
+    const getSigner = async () => {
+      if (provider) {
+        const signer = await provider.getSigner();
+        setSigner(signer);
+      }
+    };
+    getSigner();
+  }, [provider]);
 
   /**
    * Effect to restore the user's connected network and address from Zustand state on component mount.
@@ -109,12 +123,13 @@ export const BlockchainProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     () => ({
       provider,
       tronWeb,
+      signer,
       contractService,
       connectEthereum,
       connectTron,
       switchNetwork,
     }),
-    [provider, tronWeb, contractService, connectEthereum, connectTron, switchNetwork]
+    [provider, tronWeb, signer, contractService, connectEthereum, connectTron, switchNetwork]
   );
 
   /**
