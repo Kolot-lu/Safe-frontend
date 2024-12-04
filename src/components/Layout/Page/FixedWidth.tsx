@@ -8,5 +8,5 @@ import { cn } from '../../../utils/cn';
  * @returns {JSX.Element} The rendered fixed-width <section> element.
  */
 export const FixedWidth: React.FC<React.ComponentProps<'section'>> = (props) => {
-  return <section {...props} className={cn(props.className, 'container w-auto')} />;
+  return <section {...props} className={cn(props.className, 'container w-full px-4 md:px-10')} />;
 };
