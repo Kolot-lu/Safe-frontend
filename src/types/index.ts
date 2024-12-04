@@ -35,7 +35,8 @@ export interface SafeContract extends Contract {
     _totalAmount: BigNumberish,
     _milestoneAmounts: BigNumberish[],
     _platformFeePercent: BigNumberish,
-    _token: string
+    _token: string,
+    overrides?: ethers.TransactionRequest
   ) => Promise<ContractTransaction>;
 
   cancelProject: (_projectId: BigNumberish) => Promise<ContractTransaction>;

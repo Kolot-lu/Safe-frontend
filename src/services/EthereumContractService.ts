@@ -15,11 +15,7 @@ export class EthereumContractService implements IBlockchainContractService {
    * @param {BrowserProvider} provider - The Ethers.js provider instance.
    */
   constructor(provider: BrowserProvider) {
-    this.contract = new ethers.Contract(
-      config.CONTRACT_ADDRESS,
-      SafeABI,
-      provider
-    ) as SafeContract;
+    this.contract = new ethers.Contract(config.CONTRACT_ADDRESS, SafeABI, provider) as SafeContract;
   }
 
   /**
@@ -86,12 +82,13 @@ export class EthereumContractService implements IBlockchainContractService {
 
   /**
    * @method createProject
-   * @description Creates a new project on the blockchain.
+   * @description Creates a new project on the blockchain with updated logic.
    * @param {string} executor - The address of the executor (freelancer).
    * @param {string} totalAmount - The total amount for the project in Ether.
    * @param {string[]} milestoneAmounts - An array of milestone amounts in Ether.
    * @param {number} platformFeePercent - The platform fee percentage.
-   * @param {string} tokenAddress - The address of the ERC20 token used for payments.
+   * @param {string} tokenAddress - The address of the ERC20 token used for payments
+   *                                (use '0x0000000000000000000000000000000000000000' for native currency).
    * @param {ethers.Signer} signer - The signer to authorize the transaction.
    * @returns {Promise<ethers.ContractTransaction>} The transaction object.
    * @throws Will throw an error if the contract call fails.
@@ -107,16 +104,18 @@ export class EthereumContractService implements IBlockchainContractService {
     try {
       const contractWithSigner = this.contract.connect(signer) as SafeContract;
       const totalAmountInWei = ethers.parseEther(totalAmount);
-      const milestoneAmountsInWei = milestoneAmounts.map((amount) =>
-        ethers.parseEther(amount)
-      );
+      const milestoneAmountsInWei = milestoneAmounts.map((amount) => ethers.parseEther(amount));
 
+      // Check if the token is the native currency (ETH)
+      const isNativeCurrency = tokenAddress === '0x0000000000000000000000000000000000000000';
+      
       return await contractWithSigner.createProject(
         executor,
         totalAmountInWei,
         milestoneAmountsInWei,
         platformFeePercent,
-        tokenAddress
+        tokenAddress,
+        isNativeCurrency ? { value: totalAmountInWei } : {} // Send ETH value if using native currency
       );
     } catch (error) {
       console.error('Error creating project:', error);
