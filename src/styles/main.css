@@ -2,18 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global body styles */
 body {
-    transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+
+/* Transition for interactive elements */
 button,
 a,
 input,
 select,
 textarea {
-    transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
+/* Focus styles */
 button:focus,
 a:focus,
 input:focus,
@@ -32,4 +36,79 @@ select:focus,
 .dark [tabindex]:focus:not([tabindex="-1"]) {
   outline: 2px solid rgba(108, 121, 142, 0.8);
   outline-offset: 3px;
+}
+
+/* Typography: Universal heading styles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0.5rem 0;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+/* Heading sizes */
+h1 {
+  font-size: 2.25rem;
+  /* 36px */
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.875rem;
+  /* 30px */
+}
+
+h3 {
+  font-size: 1.5rem;
+  /* 24px */
+}
+
+h4 {
+  font-size: 1.25rem;
+  /* 20px */
+}
+
+h5 {
+  font-size: 1.125rem;
+  /* 18px */
+}
+
+h6 {
+  font-size: 1rem;
+  /* 16px */
+  font-weight: 500;
+}
+
+/* Light/dark mode text color */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-light, #333333);
+  /* Default light mode text color */
+}
+
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6 {
+  color: var(--text-dark, #e4e4e4);
+  /* Dark mode text color */
+}
+
+/* Additional styles for spacing and hierarchy */
+h1+p,
+h2+p,
+h3+p {
+  margin-top: 0.5rem;
 }
