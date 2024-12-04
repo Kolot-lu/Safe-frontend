@@ -8,11 +8,17 @@
       "title": "Create a New Project",
       "fields": {
         "executor": "Executor Address",
-        "total_amount": "Total Amount (ETH)",
+        "total_amount": "Total Amount",
         "milestones": "Milestones",
-        "milestone_amount": "Milestone Amount (ETH)",
+        "milestone_amount": "Milestone Amount (%)",
         "platform_fee": "Platform Fee (%)",
-        "token_address": "Token Address"
+        "token_address": "Token Address",
+        "conversions": "Conversions",
+        "fee_explanation": "You entered a platform fee of {{fee}}%. The contract expects 100 = 1%, so for example, 5% = 500.",
+        "calculated_fee": "Calculated Fee",
+        "net_amount": "Net Amount (after fee)",
+        "milestone_value": "Milestone Value",
+        "total_milestone_percent": "Total Milestone Percentage"
       },
       "actions": {
         "submit": "Create Project",
@@ -22,7 +28,11 @@
       },
       "errors": {
         "invalid_input": "Please fill out all fields correctly.",
-        "generic": "Something went wrong. Please try again."
+        "generic": "Something went wrong. Please try again.",
+        "fee_too_low": "Platform fee is too low. Minimum is 1% (100).",
+        "no_contract_service": "No contract service is available.",
+        "no_signer": "No signer connected.",
+        "sum_not_100": "The total percentage of milestones must equal 100%."
       },
       "success": "Project created successfully!"
     }
