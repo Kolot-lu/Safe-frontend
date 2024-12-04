@@ -1,14 +1,20 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import ProjectsList from '../components/ProjectsList';
-import ConnectWallet from '../components/ConnectWallet';
+import PageLayout from '../components/Layout/Page/PageLayout';
+// import ConnectWallet from '../components/ConnectWallet';
+
+const translations = 'pages.home';
 
 const HomePage: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-      <ConnectWallet />
+    <PageLayout.FixedWidth>
+      <h1>{t(`${translations}.title`)}</h1>
+      {/* <ConnectWallet /> */}
       <ProjectsList />
-    </div>
+    </PageLayout.FixedWidth>
   );
 };
 
