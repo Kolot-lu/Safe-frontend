@@ -24,7 +24,7 @@ interface ModalContentProps {
  * @param {string} [className] - Additional custom classes to style the modal content.
  * @returns {JSX.Element} The rendered modal content area.
  */
-const ModalContent: React.FC<ModalContentProps> = ({ isCloseable = false, children, className }) => {
+const ModalContent: React.FC<ModalContentProps> = ({ isCloseable = false, children, className, ...props }) => {
   const context = useContext(ModalContext);
   if (!context) throw new Error('ModalContent must be used within a Modal');
 
@@ -69,6 +69,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ isCloseable = false, childr
           'bg-white dark:bg-dark-500 border border-border-light dark:border-border-dark py-4 px-6 mx-3 rounded-lg shadow-lg max-w-lg w-full relative',
           className
         )}
+        {...props}
       >
         {isCloseable && (
           <Button
