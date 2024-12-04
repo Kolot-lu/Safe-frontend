@@ -1,5 +1,6 @@
 import { BrowserProvider, ethers } from 'ethers';
 import SafeABI from '../abi/Safe.json';
+import ERC20ABI from '../abi/ERC20.json';
 import { IBlockchainContractService, Project, SafeContract } from '../types';
 import config from '../config';
 
@@ -104,10 +105,14 @@ export class EthereumContractService implements IBlockchainContractService {
     try {
       const contractWithSigner = this.contract.connect(signer) as SafeContract;
       const totalAmountInWei = ethers.parseEther(totalAmount);
-      const milestoneAmountsInWei = milestoneAmounts.map((amount) => ethers.parseEther(amount));
-
+      const milestoneAmountsInWei = milestoneAmounts.map((amount) =>
+        ethers.parseEther(Number(amount).toFixed(18))
+      );
+      
       // Check if the token is the native currency (ETH)
-      const isNativeCurrency = tokenAddress === '0x0000000000000000000000000000000000000000';
+      const isNativeCurrency = tokenAddress === config.ZERRO_ADDRESS;
+
+      if (!isNativeCurrency) await this.approveERC20Allowance(totalAmountInWei, tokenAddress, signer);
       
       return await contractWithSigner.createProject(
         executor,
@@ -143,5 +148,22 @@ export class EthereumContractService implements IBlockchainContractService {
       isFunded: project.isFunded,
       token: project.token,
     };
+  }
+
+
+  /**
+   * @method approveERC20Allowance
+   * @description Approves the Safe contract to spend a certain amount of an ERC-20 token on behalf of the user.
+   *
+   * @param {bigint} amount - The amount of tokens (in wei) to approve.
+   * @param {string} tokenAddress - The ERC-20 token contract address.
+   * @param {ethers.Signer} signer - The signer (must hold tokens).
+   * @returns {Promise<ethers.ContractTransaction>} The approve transaction object.
+   */
+  private async approveERC20Allowance(amount: bigint, tokenAddress: string, signer: ethers.Signer): Promise<ethers.ContractTransaction> {
+    if (tokenAddress === config.ZERRO_ADDRESS) throw new Error('Cannot approve allowance for native currency.');
+
+    const tokenContract = new ethers.Contract(tokenAddress, ERC20ABI, signer);
+    return await tokenContract.approve(config.CONTRACT_ADDRESS, amount);
   }
 }

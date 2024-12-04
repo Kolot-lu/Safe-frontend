@@ -26,6 +26,7 @@ const config = {
   // Address of the deployed smart contract
   CONTRACT_ADDRESS: getEnvVariable('VITE_CONTRACT_ADDRESS'),
   TRON_CONTRACT_ADDRESS: getEnvVariable('VITE_TRON_CONTRACT_ADDRESS'),
+  ZERRO_ADDRESS: "0x0000000000000000000000000000000000000000",
 };
 
 export default config;
