@@ -1,7 +1,50 @@
 {
   "title": "Hello in English",
-  "pages": {},
+  "pages": {
+    "home": {
+      "title": "Dashboard"
+    },
+    "create_project": {
+      "title": "Create a New Project",
+      "fields": {
+        "executor": "Executor Address",
+        "total_amount": "Total Amount (ETH)",
+        "milestones": "Milestones",
+        "milestone_amount": "Milestone Amount (ETH)",
+        "platform_fee": "Platform Fee (%)",
+        "token_address": "Token Address"
+      },
+      "actions": {
+        "submit": "Create Project",
+        "submitting": "Submitting...",
+        "add_milestone": "Add Milestone",
+        "remove": "Remove"
+      },
+      "errors": {
+        "invalid_input": "Please fill out all fields correctly.",
+        "generic": "Something went wrong. Please try again."
+      },
+      "success": "Project created successfully!"
+    }
+  },
   "components": {
+    "header": {
+      "main_header": {        
+        "accessibility": {
+          "logotype": {
+            "link_label": "Go to the home page",
+            "logo_label": "Safe project logotype"
+          },
+          "open_menu": "Open main menu"
+        }
+      }
+    },
+    "language_switcher": {
+      "accessibility": {
+        "label": "Switch to {{language}} language",
+        "switch_language": "Switch language. Current language: {{language}}"
+      }
+    },
     "layouts": {
       "main": {
         "footer": {
@@ -36,6 +79,12 @@
         "connect": "Open wallet connection options"
       },
       "connect": "Connect"
+    },
+    "input": {
+      "errors": {
+        "required": "This field is required",
+        "invalid": "Invalid input"
+      }
     }
   },
   "wallets": {
