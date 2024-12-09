@@ -7,7 +7,7 @@
     "create_project": {
       "title": "Create a New Project",
       "fields": {
-        "executor": "Executor Address",
+        "executor": "Executor Wallet Address",
         "total_amount": "Total Amount",
         "milestones": "Milestones",
         "milestone_amount": "Milestone Amount (%)",

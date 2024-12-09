@@ -1,55 +1,18 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import PageLayout from '../components/Layout/Page/PageLayout';
-import Button from '../components/ui/Button';
-import { useBlockchain } from '../hooks/useBlockchain';
-import Input from '../components/ui/Inbut';
-import config from '../config';
+import PageLayout from '../../components/Layout/Page/PageLayout';
+import Button from '../../components/ui/Button';
+import { useBlockchain } from '../../hooks/useBlockchain';
+import Input from '../../components/ui/Input';
+import config from '../../config';
+import { ethToGwei, ethToWei, formatNumber, fromUnit, toUnit, Unit } from '../../helpers/converters';
+import ExecutorInput from './components/ExecutorInput';
+import TotalAmountInput from './components/TotalAmountInput';
+import { PlatformFeeInput } from './components/PlatformFeeInput';
 
 const translations = 'pages.create_project';
 const ZERO_ADDRESS = config.ZERRO_ADDRESS;
 const MOCK_ETH_PRICE_USD = 3663; // Mock ETH price in USD for demonstration
-
-type Unit = 'ETH' | 'Gwei' | 'Wei';
-
-/**
- * Converts ETH to Gwei.
- */
-function ethToGwei(eth: number): number {
-  return eth * 1_000_000_000;
-}
-
-/**
- * Converts ETH to Wei.
- */
-function ethToWei(eth: number): number {
-  return eth * 1_000_000_000_000_000_000;
-}
-
-/**
- * Converts a value in a given unit back to ETH.
- */
-function fromUnit(value: number, unit: Unit): number {
-  if (unit === 'Wei') return value / 1_000_000_000_000_000_000;
-  if (unit === 'Gwei') return value / 1_000_000_000;
-  return value; // ETH by default
-}
-
-/**
- * Converts a value in ETH to a specified unit.
- */
-function toUnit(eth: number, unit: Unit): number {
-  if (unit === 'Wei') return ethToWei(eth);
-  if (unit === 'Gwei') return ethToGwei(eth);
-  return eth; // ETH by default
-}
-
-/**
- * Formats a number with a fixed number of decimal places.
- */
-function formatNumber(num: number, decimals = 8): string {
-  return num.toFixed(decimals);
-}
 
 /**
  * Returns a string showing ETH, Gwei, Wei conversions for a given ETH value.
@@ -198,106 +161,35 @@ const CreateProjectPage: React.FC = () => {
     setRawTotalAmount(converted === 0 ? '' : converted.toString());
   };
 
-  /**
-   * Handles changes in the total amount input, converting from the entered unit to ETH internally.
-   */
-  const handleTotalAmountChange = (val: string) => {
-    setRawTotalAmount(val);
-  };
-
   return (
     <PageLayout.FixedWidth>
       <h1>{t(`${translations}.title`)}</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <Input
-          label={t(`${translations}.fields.executor`)}
-          placeholder="0x123..."
-          value={executor}
-          onChange={(e) => setExecutor(e.target.value)}
-          required
+        <ExecutorInput value={executor} onChange={setExecutor} />
+        <TotalAmountInput
+          rawTotalAmount={rawTotalAmount}
+          displayUnit={displayUnit}
+          onAmountChange={setRawTotalAmount}
+          onUnitSwitch={handleUnitSwitch}
+          descriptionText={
+            totalAmountNum > 0
+              ? `${t(`${translations}.fields.conversions`)}: ${showConversions(totalAmountNum)} ${showUSDConversion(
+                  totalAmountNum
+                )}`
+              : undefined
+          }
         />
-
-        {/* Total Amount Section with Unit Toggle */}
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-4">
-            <Input
-              label={`${t(`${translations}.fields.total_amount`)} (${displayUnit})`}
-              placeholder={`0.0 ${displayUnit}`}
-              value={rawTotalAmount}
-              onChange={(e) => handleTotalAmountChange(e.target.value)}
-              type="number"
-              step="any"
-              required
-            />
-            <div className="flex gap-2 mt-7">
-              <Button
-                type="button"
-                variant={displayUnit === 'ETH' ? 'primary' : 'ghost'}
-                size="xsmall"
-                onClick={() => handleUnitSwitch('ETH')}
-              >
-                ETH
-              </Button>
-              <Button
-                type="button"
-                variant={displayUnit === 'Gwei' ? 'primary' : 'ghost'}
-                size="xsmall"
-                onClick={() => handleUnitSwitch('Gwei')}
-              >
-                Gwei
-              </Button>
-              <Button
-                type="button"
-                variant={displayUnit === 'Wei' ? 'primary' : 'ghost'}
-                size="xsmall"
-                onClick={() => handleUnitSwitch('Wei')}
-              >
-                Wei
-              </Button>
-            </div>
-          </div>
-
-          {totalAmountNum > 0 && (
-            <div className="text-sm text-gray-500 space-y-1">
-              <p>
-                {t(`${translations}.fields.conversions`)}: {showConversions(totalAmountNum)}
-              </p>
-              <p>{showUSDConversion(totalAmountNum)}</p>
-            </div>
-          )}
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <Input
-            label={t(`${translations}.fields.platform_fee`)}
-            placeholder="Example: 5 for 5%"
-            value={platformFeePercent}
-            onChange={(e) => setPlatformFeePercent(e.target.value)}
-            type="number"
-            step="any"
-            required
-          />
-          {userFeePercent > 0 && (
-            <p className="text-sm text-gray-500">
-              {t(`${translations}.fields.fee_explanation`, { fee: userFeePercent })}
-            </p>
-          )}
-        </div>
-
-        {totalAmountNum > 0 && userFeePercent > 0 && (
-          <div className="space-y-2 text-sm text-gray-500">
-            <p>
-              {t(`${translations}.fields.calculated_fee`)}: {formatNumber(feeAmount)} ETH ({showConversions(feeAmount)})
-              <br />
-              {showUSDConversion(feeAmount)}
-            </p>
-            <p>
-              {t(`${translations}.fields.net_amount`)}: {formatNumber(netAmount)} ETH ({showConversions(netAmount)})
-              <br />
-              {showUSDConversion(netAmount)}
-            </p>
-          </div>
-        )}
+        <PlatformFeeInput
+          platformFeePercent={platformFeePercent}
+          setPlatformFeePercent={setPlatformFeePercent}
+          descriptionText={
+            totalAmountNum > 0 && userFeePercent > 0
+              ? `${t(`${translations}.fields.fee_explanation`, { fee: userFeePercent })} ${t(`${translations}.fields.calculated_fee`)}: ${formatNumber(feeAmount)} ETH (${showConversions(
+                  feeAmount
+                )}) ${showUSDConversion(feeAmount)} `
+              : undefined
+          }
+        />
 
         <div className="flex flex-col gap-2">
           <label className="block font-medium mb-2">{t(`${translations}.fields.milestones`)}</label>
@@ -338,7 +230,6 @@ const CreateProjectPage: React.FC = () => {
             <Button type="button" size="small" onClick={addMilestone}>
               {t(`${translations}.actions.add_milestone`)}
             </Button>
-          
           </div>
 
           {totalMilestonesPercent > 0 && (

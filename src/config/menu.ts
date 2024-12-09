@@ -1,6 +1,6 @@
 import { LucideIcon, Home, PlusCircle, Folder } from 'lucide-react';
 import HomePage from '../pages/Home';
-import CreateProjectPage from '../pages/CreateProject';
+import CreateProjectPage from '../pages/CreateProject/CreateProject';
 import ProjectDetailsPage from '../pages/ProjectDetails';
 
 /**
