@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import translationEN from '../src/locales/en.json';
 import translationFR from '../src/locales/fr.json';
+import translationRU from '../src/locales/ru.json';
 
 /**
  * Resources object containing language-specific translations.
@@ -15,12 +16,15 @@ const resources = {
   fr: {
     translation: translationFR, // French translations
   },
+  ru: {
+    translation: translationRU, // Russian translations
+  },
 };
 
 /**
  * List of supported languages.
  */
-export const languages: string[] = ['en', 'fr'];
+export const languages: string[] = ['en', 'fr', 'ru'];
 
 /**
  * i18n configuration for initializing internationalization.
