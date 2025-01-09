@@ -7,23 +7,41 @@
     "create_project": {
       "title": "Create a New Project",
       "fields": {
-        "executor": "Executor Wallet Address",
+        "executor": {
+          "executor": "Executor Wallet Address",
+          "executor_placeholder": "0123..."
+        },
+        "platform_fee": {
+          "platform_fee": "Platform Fee (%)",
+          "platform_fee_placeholder": "Example: 5 for 5%",
+          "platform_fee_description": "The platform fee is the percentage of the total amount that the platform will take as a fee. 1% Minimum."
+        },
+        "milestone": {
+          "milestones": "Milestones",
+          "milestone_amount": "Milestone Amount (%)",
+          "milestone_amount_placeholder": "Example: 50 for 50%",
+          "enter_percentage": "Enter percentage",
+          "milestone_amount_aria": "Milestone Amount",
+          "remove_milestone": "Remove Milestone",
+          "add_milestone": "Add Milestone"
+        },
+        "token_address": {
+          "token_address": "Token Address",
+          "token_address_placeholder": "0x0123..."
+        },
         "total_amount": "Total Amount",
-        "milestones": "Milestones",
-        "milestone_amount": "Milestone Amount (%)",
-        "platform_fee": "Platform Fee (%)",
-        "token_address": "Token Address",
+
         "conversions": "Conversions",
         "fee_explanation": "You entered a platform fee of {{fee}}%. The contract expects 100 = 1%, so for example, 5% = 500.",
         "calculated_fee": "Calculated Fee",
         "net_amount": "Net Amount (after fee)",
         "milestone_value": "Milestone Value",
-        "total_milestone_percent": "Total Milestone Percentage"
+        "total_milestone_percent": "Total Milestone Percentage",
+        "enter_percentage": "Enter percentage"
       },
       "actions": {
         "submit": "Create Project",
         "submitting": "Submitting...",
-        "add_milestone": "Add Milestone",
         "remove": "Remove"
       },
       "errors": {
@@ -32,14 +50,23 @@
         "fee_too_low": "Platform fee is too low. Minimum is 1% (100).",
         "no_contract_service": "No contract service is available.",
         "no_signer": "No signer connected.",
-        "sum_not_100": "The total percentage of milestones must equal 100%."
+        "sum_not_100": "The total percentage of milestones must equal 100%.",
+        "executor_required": "Executor address is required.",
+        "token_address_required": "Token address is required.",
+        "total_amount_required": "Total amount is required.",
+        "total_amount_positive": "Total amount must be positive.",
+        "platform_fee_required": "Platform fee is required.",
+        "platform_fee_positive": "Platform fee must be positive.",
+        "milestones_required": "At least one milestone is required.",
+        "milestone_percentage_required": "Milestone percentage is required.",
+        "milestone_invalid_percentage_format": "Milestone percentage must be a number."
       },
       "success": "Project created successfully!"
     }
   },
   "components": {
     "header": {
-      "main_header": {        
+      "main_header": {
         "accessibility": {
           "logotype": {
             "link_label": "Go to the home page",
