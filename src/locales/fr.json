@@ -1,3 +1,176 @@
 {
-    "title": "Bonjour en français"
+  "pages": {
+    "home": {
+      "title": "Tableau de bord"
+    },
+    "create_project": {
+      "title": "Créer un nouveau projet",
+      "fields": {
+        "executor": {
+          "executor": "Adresse du portefeuille de l'exécuteur",
+          "executor_placeholder": "0123..."
+        },
+        "platform_fee": {
+          "platform_fee": "Frais de plateforme (%)",
+          "platform_fee_placeholder": "Exemple : 5 pour 5%",
+          "platform_fee_description": "Les frais de plateforme correspondent au pourcentage du montant total que la plateforme prendra comme frais. Minimum de 1%."
+        },
+        "milestone": {
+          "milestones": "Étapes",
+          "milestone_amount": "Montant de l'étape (%)",
+          "milestone_amount_placeholder": "Exemple : 50 pour 50%",
+          "enter_percentage": "Entrez le pourcentage",
+          "milestone_amount_aria": "Montant de l'étape",
+          "remove_milestone": "Supprimer l'étape",
+          "add_milestone": "Ajouter une étape"
+        },
+        "token_address": {
+          "token_address": "Adresse du token",
+          "token_address_placeholder": "0x0123..."
+        },
+        "total_amount": "Montant total",
+        "conversions": "Conversions",
+        "fee_explanation": "Vous avez entré des frais de plateforme de {{fee}}%. Le contrat attend 100 = 1%, donc par exemple, 5% = 500.",
+        "calculated_fee": "Frais calculés",
+        "net_amount": "Montant net (après frais)",
+        "milestone_value": "Valeur de l'étape",
+        "total_milestone_percent": "Pourcentage total des étapes",
+        "enter_percentage": "Entrez le pourcentage"
+      },
+      "actions": {
+        "submit": "Créer le projet",
+        "submitting": "En cours d'envoi...",
+        "remove": "Supprimer"
+      },
+      "errors": {
+        "invalid_input": "Veuillez remplir correctement tous les champs.",
+        "generic": "Une erreur est survenue. Veuillez réessayer.",
+        "fee_too_low": "Les frais de plateforme sont trop bas. Le minimum est de 1% (100).",
+        "no_contract_service": "Aucun service de contrat n'est disponible.",
+        "no_signer": "Aucun signataire connecté.",
+        "sum_not_100": "Le pourcentage total des étapes doit être égal à 100%.",
+        "executor_required": "L'adresse de l'exécuteur est requise.",
+        "token_address_required": "L'adresse du token est requise.",
+        "total_amount_required": "Le montant total est requis.",
+        "total_amount_positive": "Le montant total doit être positif.",
+        "platform_fee_required": "Les frais de plateforme sont requis.",
+        "platform_fee_positive": "Les frais de plateforme doivent être positifs.",
+        "milestones_required": "Au moins une étape est requise.",
+        "milestone_percentage_required": "Le pourcentage de l'étape est requis.",
+        "milestone_invalid_percentage_format": "Le pourcentage de l'étape doit être un nombre."
+      },
+      "success": "Projet créé avec succès!"
+    }
+  },
+  "components": {
+    "header": {
+      "main_header": {
+        "accessibility": {
+          "logotype": {
+            "link_label": "Aller à la page d'accueil",
+            "logo_label": "Logotype du projet Safe"
+          },
+          "open_menu": "Ouvrir le menu principal"
+        }
+      }
+    },
+    "language_switcher": {
+      "accessibility": {
+        "label": "Passer à la langue {{language}}",
+        "switch_language": "Changer de langue. Langue actuelle : {{language}}"
+      }
+    },
+    "layouts": {
+      "main": {
+        "footer": {
+          "accessibility": {
+            "label": "Pied de page du site"
+          }
+        },
+        "header": {
+          "accessibility": {
+            "label": "En-tête du site"
+          }
+        }
+      }
+    },
+    "connect_wallet": {
+      "metamask": {
+        "label": "MetaMask",
+        "accessibility": {
+          "label": "Se connecter avec MetaMask"
+        }
+      },
+      "tronweb": {
+        "label": "TronLink",
+        "warnings": {
+          "in_development": "Le portefeuille Tron est encore en développement."
+        },
+        "accessibility": {
+          "label": "Se connecter avec TronLink (en développement)"
+        }
+      },
+      "accessibility": {
+        "connect": "Ouvrir les options de connexion au portefeuille"
+      },
+      "connect": "Se connecter"
+    },
+    "input": {
+      "errors": {
+        "required": "Ce champ est requis",
+        "invalid": "Entrée invalide"
+      }
+    }
+  },
+  "wallets": {
+    "tronweb": {
+      "errors": {
+        "not_installed": "TronLink n'est pas installé ou n'est pas prêt!"
+      },
+      "warnings": {
+        "disconnected": "TronLink est déconnecté!",
+        "account_disconnected": "Le compte TronLink est déconnecté!"
+      },
+      "notifications": {
+        "connected": "Connecté à TronLink avec le compte : {account}",
+        "account_changed": "Le compte TronLink a été changé pour : {account}",
+        "restored_connection": "Connexion à TronLink restaurée avec le compte : {{account}}"
+      }
+    },
+    "metamask": {
+      "errors": {
+        "not_installed": "MetaMask n'est pas installé!",
+        "connection_failed": "Échec de la connexion à MetaMask!",
+        "connection_error": "Erreur de connexion MetaMask : {{error}}",
+        "unknown_error": "Erreur de connexion MetaMask inconnue"
+      },
+      "warnings": {
+        "disconnected": "MetaMask est déconnecté!",
+        "account_disconnected": "Le compte MetaMask est déconnecté!",
+        "no_accounts": "Aucun compte Ethereum trouvé!"
+      },
+      "notifications": {
+        "connected": "Connecté à Ethereum via MetaMask avec le compte : {{account}}"
+      }
+    }
+  },
+  "blockchain_provider": {
+    "errors": {
+      "no_provider": "BlockchainProvider n'est pas fourni!",
+      "missing_provider": "Le fournisseur pour {{network}} est manquant"
+    },
+    "warnings": {
+      "invalid_provider_state": "État du fournisseur invalide, réinitialisation de la connexion"
+    },
+    "notifications": {
+      "restoring_connection": "Restauration de la connexion à la blockchain..., {{account}}"
+    }
+  },
+  "hooks": {
+    "use_blockchain": {
+      "errors": {
+        "no_provider": "useBlockchain doit être utilisé dans un BlockchainProvider!"
+      }
+    }
+  }
 }
