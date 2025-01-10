@@ -1,0 +1,176 @@
+{
+  "pages": {
+    "home": {
+      "title": "Панель управления"
+    },
+    "create_project": {
+      "title": "Создать новый проект",
+      "fields": {
+        "executor": {
+          "executor": "Адрес кошелька исполнителя",
+          "executor_placeholder": "0123..."
+        },
+        "platform_fee": {
+          "platform_fee": "Комиссия платформы (%)",
+          "platform_fee_placeholder": "Пример: 5 для 5%",
+          "platform_fee_description": "Комиссия платформы — это процент от общей суммы, который платформа возьмет в качестве комиссии. Минимум 1%."
+        },
+        "milestone": {
+          "milestones": "Этапы",
+          "milestone_amount": "Сумма этапа (%)",
+          "milestone_amount_placeholder": "Пример: 50 для 50%",
+          "enter_percentage": "Введите процент",
+          "milestone_amount_aria": "Сумма этапа",
+          "remove_milestone": "Удалить этап",
+          "add_milestone": "Добавить этап"
+        },
+        "token_address": {
+          "token_address": "Адрес токена",
+          "token_address_placeholder": "0x0123..."
+        },
+        "total_amount": "Общая сумма",
+        "conversions": "Конверсии",
+        "fee_explanation": "Вы ввели комиссию платформы {{fee}}%. Контракт ожидает 100 = 1%, то есть, например, 5% = 500.",
+        "calculated_fee": "Рассчитанная комиссия",
+        "net_amount": "Чистая сумма (после комиссии)",
+        "milestone_value": "Значение этапа",
+        "total_milestone_percent": "Общий процент этапов",
+        "enter_percentage": "Введите процент"
+      },
+      "actions": {
+        "submit": "Создать проект",
+        "submitting": "Отправка...",
+        "remove": "Удалить"
+      },
+      "errors": {
+        "invalid_input": "Пожалуйста, заполните все поля корректно.",
+        "generic": "Что-то пошло не так. Попробуйте снова.",
+        "fee_too_low": "Комиссия платформы слишком низкая. Минимум 1% (100).",
+        "no_contract_service": "Сервис контракта недоступен.",
+        "no_signer": "Подписант не подключен.",
+        "sum_not_100": "Общий процент этапов должен быть равен 100%.",
+        "executor_required": "Необходимо указать адрес исполнителя.",
+        "token_address_required": "Необходимо указать адрес токена.",
+        "total_amount_required": "Необходимо указать общую сумму.",
+        "total_amount_positive": "Общая сумма должна быть положительной.",
+        "platform_fee_required": "Необходимо указать комиссию платформы.",
+        "platform_fee_positive": "Комиссия платформы должна быть положительной.",
+        "milestones_required": "Необходимо указать хотя бы один этап.",
+        "milestone_percentage_required": "Необходимо указать процент этапа.",
+        "milestone_invalid_percentage_format": "Процент этапа должен быть числом."
+      },
+      "success": "Проект успешно создан!"
+    }
+  },
+  "components": {
+    "header": {
+      "main_header": {
+        "accessibility": {
+          "logotype": {
+            "link_label": "Перейти на главную страницу",
+            "logo_label": "Логотип проекта Safe"
+          },
+          "open_menu": "Открыть главное меню"
+        }
+      }
+    },
+    "language_switcher": {
+      "accessibility": {
+        "label": "Переключиться на язык {{language}}",
+        "switch_language": "Сменить язык. Текущий язык: {{language}}"
+      }
+    },
+    "layouts": {
+      "main": {
+        "footer": {
+          "accessibility": {
+            "label": "Подвал сайта"
+          }
+        },
+        "header": {
+          "accessibility": {
+            "label": "Шапка сайта"
+          }
+        }
+      }
+    },
+    "connect_wallet": {
+      "metamask": {
+        "label": "MetaMask",
+        "accessibility": {
+          "label": "Подключиться через MetaMask"
+        }
+      },
+      "tronweb": {
+        "label": "TronLink",
+        "warnings": {
+          "in_development": "Кошелек Tron находится в стадии разработки."
+        },
+        "accessibility": {
+          "label": "Подключиться через TronLink (в разработке)"
+        }
+      },
+      "accessibility": {
+        "connect": "Открыть параметры подключения кошелька"
+      },
+      "connect": "Подключить"
+    },
+    "input": {
+      "errors": {
+        "required": "Это поле обязательно для заполнения",
+        "invalid": "Некорректное значение"
+      }
+    }
+  },
+  "wallets": {
+    "tronweb": {
+      "errors": {
+        "not_installed": "TronLink не установлен или не готов!"
+      },
+      "warnings": {
+        "disconnected": "TronLink отключен!",
+        "account_disconnected": "Аккаунт TronLink отключен!"
+      },
+      "notifications": {
+        "connected": "Подключено к TronLink с аккаунтом: {account}",
+        "account_changed": "Аккаунт TronLink изменен на: {account}",
+        "restored_connection": "Соединение с TronLink восстановлено с аккаунтом: {{account}}"
+      }
+    },
+    "metamask": {
+      "errors": {
+        "not_installed": "MetaMask не установлен!",
+        "connection_failed": "Не удалось подключиться к MetaMask!",
+        "connection_error": "Ошибка подключения MetaMask: {{error}}",
+        "unknown_error": "Неизвестная ошибка подключения MetaMask"
+      },
+      "warnings": {
+        "disconnected": "MetaMask отключен!",
+        "account_disconnected": "Аккаунт MetaMask отключен!",
+        "no_accounts": "Не найдено аккаунтов Ethereum!"
+      },
+      "notifications": {
+        "connected": "Подключено к Ethereum через MetaMask с аккаунтом: {{account}}"
+      }
+    }
+  },
+  "blockchain_provider": {
+    "errors": {
+      "no_provider": "BlockchainProvider не предоставлен!",
+      "missing_provider": "Отсутствует провайдер для {{network}}"
+    },
+    "warnings": {
+      "invalid_provider_state": "Неверное состояние провайдера, вызов resetConnection"
+    },
+    "notifications": {
+      "restoring_connection": "Восстановление соединения с блокчейном..., {{account}}"
+    }
+  },
+  "hooks": {
+    "use_blockchain": {
+      "errors": {
+        "no_provider": "useBlockchain должен использоваться внутри BlockchainProvider!"
+      }
+    }
+  }
+}
