@@ -31,7 +31,19 @@ interface InputProps extends React.ComponentProps<'input'> {
 
 /**
  * @component Input
- * @description A reusable input component with support for labels, error messages, icons, and accessibility.
+ * @description A styled input field component.
+ * @param label - The label text for the input field.
+ * @param error - Error message to display below the input field.
+ * @param description - Additional description text to display below the input field.
+ * @param wrapperClassName - Additional class names for the input wrapper.
+ * @param icon - Icon to display inside the input field.
+ * @param iconPosition - Determines whether the icon is placed on the left or right.
+ * @param props - Additional input field props.
+ * 
+ * @example
+ * <Input label="Email" placeholder="Enter your email" />
+ * <Input error="Email is required" />
+ * <Input icon={<Search />} />
  */
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, description, wrapperClassName, className, id, icon, iconPosition = 'left', ...props }, ref) => {
