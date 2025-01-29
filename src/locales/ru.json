@@ -26,7 +26,10 @@
         },
         "token_address": {
           "token_address": "Адрес токена",
-          "token_address_placeholder": "0x0123..."
+          "token_address_placeholder": "0x0123...",
+          "select_token": "Выбрать токен",
+          "search_placeholder": "Поиск токенов...",
+          "no_tokens_found": "Токены не найдены."
         },
         "total_amount": "Общая сумма",
         "conversions": "Конверсии",

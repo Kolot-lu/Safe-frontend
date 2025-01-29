@@ -26,7 +26,10 @@
         },
         "token_address": {
           "token_address": "Adresse du token",
-          "token_address_placeholder": "0x0123..."
+          "token_address_placeholder": "0x0123...",
+          "select_token": "Sélectionner un token",
+          "search_placeholder": "Rechercher des tokens...",
+          "no_tokens_found": "Aucun token trouvé."
         },
         "total_amount": "Montant total",
         "conversions": "Conversions",

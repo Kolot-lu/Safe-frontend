@@ -26,7 +26,10 @@
         },
         "token_address": {
           "token_address": "Token Address",
-          "token_address_placeholder": "0x0123..."
+          "token_address_placeholder": "0x0123...",
+          "select_token": "Select a token",
+          "search_placeholder": "Search tokens...",
+          "no_tokens_found": "No tokens found."
         },
         "total_amount": "Total Amount",
 
