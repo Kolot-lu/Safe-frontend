@@ -120,6 +120,17 @@
         "required": "Это поле обязательно для заполнения",
         "invalid": "Некорректное значение"
       }
+    },
+    "finder": {
+      "finder_input": {
+        "placeholder": "Поиск...",
+        "aria_label": "Опции поиска",
+        "error": "FinderInput должен использоваться внутри Finder."
+      },
+      "finder_list": {
+        "aria_label": "Фильтрованные опции",
+        "error": "FinderList должен использоваться внутри Finder."
+      }
     }
   },
   "wallets": {

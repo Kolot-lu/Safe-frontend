@@ -121,6 +121,17 @@
         "required": "This field is required",
         "invalid": "Invalid input"
       }
+    },
+    "finder": {
+      "finder_input": {
+        "placeholder": "Search...",
+        "aria_label": "Search options",
+        "error": "FinderInput must be used within a Finder."
+      },
+      "finder_list" : {
+        "aria_label": "Filtered options",
+        "error": "FinderList must be used within a Finder."
+      }
     }
   },
   "wallets": {

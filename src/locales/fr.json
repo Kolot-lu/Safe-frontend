@@ -120,6 +120,17 @@
         "required": "Ce champ est requis",
         "invalid": "Entrée invalide"
       }
+    },
+    "finder": {
+      "finder_input": {
+        "placeholder": "Rechercher...",
+        "aria_label": "Options de recherche",
+        "error": "FinderInput doit être utilisé à l'intérieur d'un Finder."
+      },
+      "finder_list": {
+        "aria_label": "Options filtrées",
+        "error": "FinderList doit être utilisé à l'intérieur d'un Finder."
+      }
     }
   },
   "wallets": {
