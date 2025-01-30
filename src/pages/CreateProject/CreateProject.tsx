@@ -88,10 +88,10 @@ const CreateProjectPage: React.FC = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Form inputs */}
           <ExecutorInput error={errors.executor?.message} />
+          <TokenAddressInput error={errors.tokenAddress?.message} />
           <TotalAmountInput error={errors.totalAmount?.message} />
           <PlatformFeeInput error={errors.platformFee?.message} />
           <MilestonesInput />
-          <TokenAddressInput error={errors.tokenAddress?.message} />
 
           {/* Submit button */}
           <Button type="submit" size="large" disabled={isSubmitting}>
