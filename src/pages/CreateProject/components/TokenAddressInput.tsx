@@ -4,6 +4,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { ChevronsUpDown } from 'lucide-react';
 import Button from '../../../components/ui/Button';
 import { Finder } from '../../../components/ui/Finder/Finder';
+import config from '../../../config';
 
 interface TokenTypes {
   name: string;
@@ -11,6 +12,7 @@ interface TokenTypes {
 }
 
 const testNetTokens: TokenTypes[] = [
+  { name: 'ETH', address: config.ZERRO_ADDRESS },
   { name: 'USDT', address: '0x7169D38820dfd117C3FA1f22a697dBA58d90BA06' },
   { name: 'WBTC', address: '0xe474b1939D11E17325B9A698462D89D3c47186F9' },
   { name: 'DAI', address: '0x68194a729C2450ad26072b3D33ADaCbcef39D574' },
