@@ -1,4 +1,4 @@
-import { BrowserProvider, ethers } from 'ethers';
+import { ethers } from 'ethers';
 import SafeABI from '../abi/Safe.json';
 import ERC20ABI from '../abi/ERC20.json';
 import { IBlockchainContractService, Project, SafeContract } from '../types';
@@ -9,14 +9,20 @@ import config from '../config';
  * @description A service class to interact with the Safe smart contract on Ethereum.
  */
 export class EthereumContractService implements IBlockchainContractService {
+  private readOnlyContract: SafeContract;
   private contract: SafeContract;
 
   /**
    * @constructor
-   * @param {BrowserProvider} provider - The Ethers.js provider instance.
+   * @param {ethers.Provider} provider - The Ethers.js provider instance (can be MetaMask or public RPC).
    */
-  constructor(provider: BrowserProvider) {
-    this.contract = new ethers.Contract(config.CONTRACT_ADDRESS, SafeABI, provider) as SafeContract;
+  constructor(provider?: ethers.Provider) {
+    const publicProvider = new ethers.JsonRpcProvider(config.RPC_URL);
+    // Create read-only and writable contract instances
+    this.readOnlyContract = new ethers.Contract(config.CONTRACT_ADDRESS, SafeABI, publicProvider) as SafeContract;
+
+    // Use the provided provider or the public one
+    this.contract = new ethers.Contract(config.CONTRACT_ADDRESS, SafeABI, provider || publicProvider) as SafeContract;
   }
 
   /**
@@ -27,7 +33,7 @@ export class EthereumContractService implements IBlockchainContractService {
    */
   async getProjectCount(): Promise<number> {
     try {
-      const count = await this.contract.projectCount();
+      const count = await this.readOnlyContract.projectCount();
       return Number(count);
     } catch (error) {
       console.error('Error fetching project count:', error);
@@ -44,9 +50,9 @@ export class EthereumContractService implements IBlockchainContractService {
    */
   async getProjectById(id: number): Promise<Project> {
     try {
-      const projectData = await this.contract.projects(id);
+      const projectData = await this.readOnlyContract.projects(id);
       // Fetch milestone amounts separately
-      const milestoneAmounts = await this.contract.getMilestoneAmounts(id);
+      const milestoneAmounts = await this.readOnlyContract.getMilestoneAmounts(id);
       return this.formatProjectData(projectData, milestoneAmounts);
     } catch (error) {
       console.error(`Error fetching project with ID ${id}:`, error);
@@ -81,6 +87,15 @@ export class EthereumContractService implements IBlockchainContractService {
     }
   }
 
+    /**
+   * @method connectWithSigner
+   * @description Connects the contract with a signer (used for transactions).
+   * @param {ethers.Signer} signer - The signer from MetaMask.
+   */
+    connectWithSigner(signer: ethers.Signer) {
+      this.contract = this.contract.connect(signer) as SafeContract;
+    }
+
   /**
    * @method createProject
    * @description Creates a new project on the blockchain with updated logic.
@@ -103,6 +118,7 @@ export class EthereumContractService implements IBlockchainContractService {
     signer: ethers.Signer
   ): Promise<ethers.ContractTransaction> {
     try {
+      this.connectWithSigner(signer);
       const contractWithSigner = this.contract.connect(signer) as SafeContract;
       const totalAmountInWei = ethers.parseEther(totalAmount);
       const milestoneAmountsInWei = milestoneAmounts.map((amount) =>
