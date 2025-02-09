@@ -64,7 +64,7 @@ export const useTron = () => {
    * Attempts to connect to the Tron wallet using TronLink.
    * If successful, sets the tronWeb instance in the state and saves the connection data in localStorage.
    */
-  const connectTron = useCallback((): void => {
+  const connect = useCallback(async (): Promise<void> => {
     if (window.tronWeb && window.tronWeb.ready) {
       setTronWeb(window.tronWeb);
       setConnectedNetwork('tron', window.tronWeb.defaultAddress.base58);
@@ -78,5 +78,5 @@ export const useTron = () => {
     }
   }, [handleError, setConnectedNetwork, showFlashMessage, t]);
 
-  return { tronWeb, connectTron };
+  return { provider: tronWeb, connect };
 };

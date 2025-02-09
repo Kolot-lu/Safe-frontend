@@ -8,7 +8,7 @@ export class TronContractService implements IBlockchainContractService {
   private contract: TronSafeContract;
 
   constructor(tronWeb: TronWeb) {
-    this.contract = tronWeb.contract(SafeABI, config.CONTRACT_ADDRESS);
+    this.contract = tronWeb.contract(SafeABI, config.env.CONTRACT_ADDRESS);
   }
 
   /**
@@ -104,8 +104,8 @@ export class TronContractService implements IBlockchainContractService {
       executor: project.executor,
       totalAmount: BigInt(project.totalAmount),
       milestoneAmounts: project.milestoneAmounts 
-      ? project.milestoneAmounts.map((m: bigint) => TronWeb.toBigNumber(m).toString())
-      : [],
+            ? (project.milestoneAmounts as unknown as bigint[]).map((m: bigint) => TronWeb.toBigNumber(m).toString())
+            : [],
       currentMilestone: BigInt(project.currentMilestone),
       isCompleted: project.isCompleted,
       isCancelled: project.isCancelled,
