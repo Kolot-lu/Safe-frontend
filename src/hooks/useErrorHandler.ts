@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useToast } from './useToast';
 
 /**
@@ -12,7 +13,7 @@ export const useErrorHandler = () => {
    * @param isToast - A flag indicating whether the error should be shown as an toast.
    * @param toastMessage - An optional message to display in the toast notification.
    */
-  const handleError = (error: unknown, isToast: boolean = true, toastMessage?: string) => {
+  const handleError = useCallback((error: unknown, isToast: boolean = true, toastMessage?: string) => {
     console.error(error instanceof Error ? error.message : 'Unknown error:', error);
 
     if (isToast) {
@@ -22,7 +23,7 @@ export const useErrorHandler = () => {
         type: 'error',
       });
     }
-  };
+  }, [showToast]);
 
   return { handleError };
 };

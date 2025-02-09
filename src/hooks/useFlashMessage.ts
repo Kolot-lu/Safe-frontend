@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { ToastProps } from '../components/ui/Toast/Toast';
 import { useToast } from './useToast';
 
@@ -11,7 +12,7 @@ import { useToast } from './useToast';
 export const useFlashMessage = () => {
   const { showToast } = useToast();
 
-  const showFlashMessage = (
+  const showFlashMessage = useCallback((
     message: string,
     type: ToastProps['type'] = 'info',
     consoleMessage?: string,
@@ -25,7 +26,7 @@ export const useFlashMessage = () => {
       if (type === 'warning') return console.warn(logMessage);
       return console.log(logMessage);
     }
-  };
+  }, [showToast]);
 
   return { showFlashMessage };
 };
