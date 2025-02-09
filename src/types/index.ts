@@ -97,6 +97,6 @@ export interface IBlockchainContractService {
     milestoneAmounts: string[],
     platformFeePercent: number,
     tokenAddress: string,
-    signer: ethers.Signer | TronWeb
+    signer?: ethers.Signer | TronWeb
   ): Promise<ContractTransaction | TronContractTransaction>;
 }
