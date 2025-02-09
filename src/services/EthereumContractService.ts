@@ -17,12 +17,12 @@ export class EthereumContractService implements IBlockchainContractService {
    * @param {ethers.Provider} provider - The Ethers.js provider instance (can be MetaMask or public RPC).
    */
   constructor(provider?: ethers.Provider) {
-    const publicProvider = new ethers.JsonRpcProvider(config.RPC_URL);
+    const publicProvider = new ethers.JsonRpcProvider(config.env.RPC_URL);
     // Create read-only and writable contract instances
-    this.readOnlyContract = new ethers.Contract(config.CONTRACT_ADDRESS, SafeABI, publicProvider) as SafeContract;
+    this.readOnlyContract = new ethers.Contract(config.env.CONTRACT_ADDRESS, SafeABI, publicProvider) as SafeContract;
 
     // Use the provided provider or the public one
-    this.contract = new ethers.Contract(config.CONTRACT_ADDRESS, SafeABI, provider || publicProvider) as SafeContract;
+    this.contract = new ethers.Contract(config.env.CONTRACT_ADDRESS, SafeABI, provider || publicProvider) as SafeContract;
   }
 
   /**
@@ -115,9 +115,10 @@ export class EthereumContractService implements IBlockchainContractService {
     milestoneAmounts: string[],
     platformFeePercent: number,
     tokenAddress: string,
-    signer: ethers.Signer
   ): Promise<ethers.ContractTransaction> {
     try {
+      const signer = await this.contract.provider.getSigner();
+
       this.connectWithSigner(signer);
       const contractWithSigner = this.contract.connect(signer) as SafeContract;
       const totalAmountInWei = ethers.parseEther(totalAmount);
@@ -126,7 +127,7 @@ export class EthereumContractService implements IBlockchainContractService {
       );
       
       // Check if the token is the native currency (ETH)
-      const isNativeCurrency = tokenAddress === config.ZERRO_ADDRESS;
+      const isNativeCurrency = tokenAddress === config.networks.zeroAddress;
 
       if (!isNativeCurrency) await this.approveERC20Allowance(totalAmountInWei, tokenAddress, signer);
       
@@ -177,9 +178,9 @@ export class EthereumContractService implements IBlockchainContractService {
    * @returns {Promise<ethers.ContractTransaction>} The approve transaction object.
    */
   private async approveERC20Allowance(amount: bigint, tokenAddress: string, signer: ethers.Signer): Promise<ethers.ContractTransaction> {
-    if (tokenAddress === config.ZERRO_ADDRESS) throw new Error('Cannot approve allowance for native currency.');
+    if (tokenAddress === config.networks.zeroAddress) throw new Error('Cannot approve allowance for native currency.');
 
     const tokenContract = new ethers.Contract(tokenAddress, ERC20ABI, signer);
-    return await tokenContract.approve(config.CONTRACT_ADDRESS, amount);
+    return await tokenContract.approve(config.env.CONTRACT_ADDRESS, amount);
   }
 }
