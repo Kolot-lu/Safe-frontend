@@ -8,9 +8,16 @@ import { useErrorHandler } from './useErrorHandler';
  * Throws an error if the hook is used outside of BlockchainProvider.
  *
  * @returns {BlockchainContextProps} Blockchain context properties and actions.
- * 
+ * {BlockchainContextProps}:
+ * - contractService: Contract service instance for the active provider
+ * - walletType: The active wallet type (MetaMask | TronLink ...)
+ * - network: The active network (EVM | TRON...)
+ * - getTokens: Function to retrieve tokens for a given network (or the connected network by default)
+ * - connectWallet: Function to connect a wallet based on the provided wallet type
+ * - switchNetwork: Function to switch the active network
+ *
  * @example
- * const { provider, tronWeb, contractService, connectEthereum, connectTron, switchNetwork } = useBlockchain();
+ * const { metamaskProvider, tronWebProvider, contractService, connectWallet } = useBlockchain();
  */
 export const useBlockchain = (): BlockchainContextProps => {
   const context = useContext(BlockchainContext);

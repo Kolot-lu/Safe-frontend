@@ -3,39 +3,23 @@ import TronWeb from 'tronweb';
 import { EthereumContractService } from '../services/EthereumContractService';
 import { TronContractService } from '../services/TronContractService';
 import { IBlockchainContractService } from '../types';
+import { AppProviders } from '../config/chains';
 
 /**
  * Factory function to create a blockchain contract service.
  * Based on the blockchain type (Ethereum or Tron), this function returns the corresponding service.
  *
- * @param {TronWeb | null} tronWeb - The instance of TronWeb (for Tron-based contracts).
- * @param {'ethereum' | 'tron'} blockchainType - The type of blockchain ('ethereum' or 'tron').
- * @param {BrowserProvider | null} [provider] - The provider for Ethereum (optional).
+ * @param {AppProviders | null} provider - The provider instance for the blockchain.
  * @returns {IBlockchainContractService} The contract service for the specified blockchain.
  * @throws Will throw an error if an unsupported blockchain or missing provider is passed.
  */
-export function createContractService(
-  tronWeb: TronWeb | null,
-  blockchainType: 'ethereum' | 'tron',
-  provider?: BrowserProvider | null
-): IBlockchainContractService {
-  // Ensure that the provider is available for Ethereum and tronWeb for Tron.
-  switch (blockchainType) {
-    case 'ethereum':
-      if (provider) {
-        return new EthereumContractService(provider);
-      } else {
-        throw new Error('Ethereum provider is missing');
-      }
+export function createContractService(provider: AppProviders | null): IBlockchainContractService {
+  // Ensure that the provider is available.
+  if (!provider) throw new Error('Missing provider');
 
-    case 'tron':
-      if (tronWeb) {
-        return new TronContractService(tronWeb);
-      } else {
-        throw new Error('TronWeb instance is missing');
-      }
+  if (provider instanceof BrowserProvider) return new EthereumContractService(provider);
 
-    default:
-      throw new Error('Unsupported blockchain type');
-  }
+  if (provider instanceof TronWeb) return new TronContractService(provider);
+
+  throw new Error('Unsupported blockchain type');
 }
