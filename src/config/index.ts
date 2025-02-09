@@ -1,33 +1,65 @@
+// /**
+//  * @description This function retrieves an environment variable by its name.
+//  * If the variable is not set, it will throw an error, preventing the application
+//  * from running without required configuration.
+//  *
+//  * @param {string} key - The name of the environment variable.
+//  * @returns {string} - The value of the environment variable.
+//  * @throws Will throw an error if the environment variable is not set.
+//  */
+// const getEnvVariable = (key: string): string => {
+//   const value = import.meta.env[key];
+
+//   if (!value) {
+//     throw new Error(`Environment variable ${key} is not set`);
+//   }
+
+//   return value as string;
+// };
+
+// /**
+//  * @description Configuration object that consolidates all environment variables
+//  * used throughout the application. Ensures that required variables are provided
+//  * before the application starts.
+//  */
+// const config = {
+//   // Address of the deployed smart contract
+//   CONTRACT_ADDRESS: getEnvVariable('VITE_CONTRACT_ADDRESS'),
+//   TRON_CONTRACT_ADDRESS: getEnvVariable('VITE_TRON_CONTRACT_ADDRESS'),
+//   ZERRO_ADDRESS: "0x0000000000000000000000000000000000000000",
+//   RPC_URL: getEnvVariable('VITE_RPC_URL'),
+// };
+
+// export default config;
+
+
+import { env } from './env';
+import { initTokensList } from './tokens';
+import { CHAINS, ZERO_ADDRESS } from './chains';
+
 /**
- * @description This function retrieves an environment variable by its name.
- * If the variable is not set, it will throw an error, preventing the application
- * from running without required configuration.
- *
- * @param {string} key - The name of the environment variable.
- * @returns {string} - The value of the environment variable.
- * @throws Will throw an error if the environment variable is not set.
+ * Interface representing the overall application configuration.
  */
-const getEnvVariable = (key: string): string => {
-  const value = import.meta.env[key];
-
-  if (!value) {
-    throw new Error(`Environment variable ${key} is not set`);
-  }
-
-  return value as string;
-};
+interface Config {
+  env: typeof env;
+  networks: {
+    chains: typeof CHAINS;
+    zeroAddress: string;
+  };
+  tokens: typeof initTokensList;
+}
 
 /**
- * @description Configuration object that consolidates all environment variables
- * used throughout the application. Ensures that required variables are provided
- * before the application starts.
+ * Main configuration object for the application.
+ * It encapsulates environment settings, supported blockchain networks, and token metadata.
  */
-const config = {
-  // Address of the deployed smart contract
-  CONTRACT_ADDRESS: getEnvVariable('VITE_CONTRACT_ADDRESS'),
-  TRON_CONTRACT_ADDRESS: getEnvVariable('VITE_TRON_CONTRACT_ADDRESS'),
-  ZERRO_ADDRESS: "0x0000000000000000000000000000000000000000",
-  RPC_URL: getEnvVariable('VITE_RPC_URL'),
+const config: Config = {
+  env,
+  networks: {
+    chains: CHAINS,
+    zeroAddress: ZERO_ADDRESS,
+  },
+  tokens: initTokensList,
 };
 
 export default config;
