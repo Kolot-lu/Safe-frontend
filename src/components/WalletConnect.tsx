@@ -9,6 +9,7 @@ import { useUserStore } from '../store/useUserStore';
 import { shortenAddress } from '../helpers/shortenAddress';
 import Button from './ui/Button';
 import Dropdown from './ui/Dropdown/Dropdown';
+import { WalletType } from '../config/wallets';
 
 // Translation keys
 const translationWallets = 'components.connect_wallet';
@@ -22,7 +23,7 @@ const translationWallets = 'components.connect_wallet';
  * @returns {JSX.Element} Rendered WalletConnect component.
  */
 const WalletConnect: React.FC<{className?: string}> = ({className}) => {
-  const { connectEthereum, provider } = useBlockchain();
+  const { connectWallet } = useBlockchain();
   const { address, connectedNetwork } = useUserStore();
   const { showToast } = useToast();
   const { t } = useTranslation();
@@ -40,10 +41,10 @@ const WalletConnect: React.FC<{className?: string}> = ({className}) => {
 
   return (
     <>
-      {provider && address && connectedNetwork ? (
+      { address && connectedNetwork ? (
         <ConnectedWallet address={address} className={className} />
       ) : (
-        <WalletConnectionOptions connectEthereum={connectEthereum} openToast={openToast} className={className} />
+        <WalletConnectionOptions connectWallet={connectWallet} openToast={openToast} className={className} />
       )}
     </>
   );
@@ -75,10 +76,10 @@ const ConnectedWallet: React.FC<{ address: string; className?: string }> = ({ ad
  * @returns {JSX.Element} The rendered dropdown with connection options.
  */
 const WalletConnectionOptions: React.FC<{
-  connectEthereum: () => void;
+  connectWallet: (wallet: WalletType) => void;
   openToast: () => void;
   className?: string;
-}> = ({ connectEthereum, openToast, className }) => {
+}> = ({ connectWallet, openToast, className }) => {
   const { t } = useTranslation();
 
   return (
@@ -94,7 +95,7 @@ const WalletConnectionOptions: React.FC<{
           variant="ghost"
           size="small"
           className="justify-start [&_svg]:w-6"
-          onClick={connectEthereum}
+          onClick={() => connectWallet(WalletType.MetaMask)}
           aria-label={t(`${translationWallets}.metamask.accessibility.label`)}
         >
           <MetaMaskIconSvg aria-hidden="true" />
