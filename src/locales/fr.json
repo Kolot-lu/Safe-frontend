@@ -153,19 +153,23 @@
     },
     "metamask": {
       "errors": {
-        "not_installed": "MetaMask n'est pas installé!",
-        "connection_failed": "Échec de la connexion à MetaMask!",
-        "connection_error": "Erreur de connexion MetaMask : {{error}}",
-        "unknown_error": "Erreur de connexion MetaMask inconnue"
-      },
-      "warnings": {
-        "disconnected": "MetaMask est déconnecté!",
-        "account_disconnected": "Le compte MetaMask est déconnecté!",
+        "no_metamask_provider": "MetaMask n'est pas installé ou n'est pas disponible!",
+        "unsupported_network": "Le réseau auquel vous vous êtes connecté via MetaMask n'est pas pris en charge!",
         "no_accounts": "Aucun compte Ethereum trouvé!"
       },
+      "warnings": {
+        "disconnected": "MetaMask est déconnecté!"
+      },
       "notifications": {
-        "connected": "Connecté à Ethereum via MetaMask avec le compte : {{account}}"
+        "account_changed": "Compte MetaMask changé pour : {{account}}",
+        "network_switched": "Réseau MetaMask changé pour : {{network}}"
       }
+    },
+    "notifications": {
+      "connected": "Connecté à {{wallet}} avec le compte : {{account}}"
+    },
+    "errors": {
+      "unsupported_wallet": "Le portefeuille sélectionné {{wallet}} n'est pas pris en charge."
     }
   },
   "blockchain_provider": {

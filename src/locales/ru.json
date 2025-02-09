@@ -153,19 +153,23 @@
     },
     "metamask": {
       "errors": {
-        "not_installed": "MetaMask не установлен!",
-        "connection_failed": "Не удалось подключиться к MetaMask!",
-        "connection_error": "Ошибка подключения MetaMask: {{error}}",
-        "unknown_error": "Неизвестная ошибка подключения MetaMask"
-      },
-      "warnings": {
-        "disconnected": "MetaMask отключен!",
-        "account_disconnected": "Аккаунт MetaMask отключен!",
+        "no_metamask_provider": "MetaMask не установлен или недоступен!",
+        "unsupported_network": "Сеть, к которой вы подключились через MetaMask, не поддерживается!",
         "no_accounts": "Не найдено аккаунтов Ethereum!"
       },
+      "warnings": {
+        "disconnected": "MetaMask отключен!"
+      },
       "notifications": {
-        "connected": "Подключено к Ethereum через MetaMask с аккаунтом: {{account}}"
+        "account_changed": "Аккаунт MetaMask изменен на: {{account}}",
+        "network_switched": "Сеть MetaMask переключена на: {{network}}"
       }
+    },
+    "notifications": {
+      "connected": "Подключено к {{wallet}} с аккаунтом: {{account}}"
+    },
+    "errors": {
+      "unsupported_wallet": "Выбранный кошелек {{wallet}} не поддерживается."
     }
   },
   "blockchain_provider": {

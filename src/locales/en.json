@@ -131,7 +131,7 @@
         "aria_label": "Search options",
         "error": "FinderInput must be used within a Finder."
       },
-      "finder_list" : {
+      "finder_list": {
         "aria_label": "Filtered options",
         "error": "FinderList must be used within a Finder."
       }
@@ -154,19 +154,23 @@
     },
     "metamask": {
       "errors": {
-        "not_installed": "MetaMask is not installed!",
-        "connection_failed": "Failed to connect to MetaMask!",
-        "connection_error": "MetaMask connection error: {{error}}",
-        "unknown_error": "Unknown MetaMask connection error"
-      },
-      "warnings": {
-        "disconnected": "MetaMask is disconnected!",
-        "account_disconnected": "MetaMask account is disconnected!",
+        "no_metamask_provider": "MetaMask is not installed or not available!",
+        "unsupported_network": "The network you connected to MetaMask is not supported!",
         "no_accounts": "No Ethereum accounts found!"
       },
+      "warnings": {
+        "disconnected": "MetaMask is disconnected!"
+      },
       "notifications": {
-        "connected": "Connected to ethereum by MetaMask with account: {{account}}"
+        "account_changed": "MetaMask account changed to: {{account}}",
+        "network_switched": "MetaMask network switched to: {{network}}"
       }
+    },
+    "notifications": {
+      "connected": "Connected to {{wallet}} with account: {{account}}"
+    },
+    "errors": {
+      "unsupported_wallet": "The selected wallet {{wallet}} is not supported."
     }
   },
   "blockchain_provider": {
