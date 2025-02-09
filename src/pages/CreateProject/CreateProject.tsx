@@ -33,7 +33,7 @@ interface FormData {
  */
 const CreateProjectPage: React.FC = () => {
   const { t } = useTranslation();
-  const { contractService, signer } = useBlockchain();
+  const { contractService,  } = useBlockchain();
   const { showToast } = useToast();
 
   // Initialize form with validation schema and default values
@@ -59,7 +59,7 @@ const CreateProjectPage: React.FC = () => {
     if (!contractService)
       return showToast({ message: t(`${TRANSLATION_KEY}.errors.no_contract_service`), type: 'error' });
     
-    if (!signer) return showToast({ message: t(`${TRANSLATION_KEY}.errors.no_signer`), type: 'error' });
+    // if (!signer) return showToast({ message: t(`${TRANSLATION_KEY}.errors.no_signer`), type: 'error' });
 
     try {
       await contractService.createProject(
@@ -68,7 +68,7 @@ const CreateProjectPage: React.FC = () => {
         data.milestonePercentages,
         data.platformFee,
         data.tokenAddress,
-        signer
+
       );
       showToast({ message: t(`${TRANSLATION_KEY}.success`), type: 'success' });
     } catch (error) {
