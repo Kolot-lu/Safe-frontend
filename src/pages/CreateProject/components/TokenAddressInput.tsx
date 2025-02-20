@@ -14,59 +14,60 @@ const TRANSLATION_KEY = 'pages.create_project.fields.token_address';
 
 /**
  * @component TokenAddressInput
- * @description Renders a token selection input integrated with `react-hook-form`, allowing users to either enter a token address manually or select from predefined options using `Finder`.
+ * @description Renders a token selection input integrated with `react-hook-form`, allowing users to either enter a token address manually or select from predefined options.
  */
 const TokenAddressInput: React.FC<{ error?: string }> = ({ error }) => {
-  const {getTokens} = useBlockchain();
+  const { getTokens } = useBlockchain();
   const { t } = useTranslation();
-  const { control, setValue, getValues } = useFormContext();
+  const { control } = useFormContext();
   const [tokenList, setTokenList] = React.useState<Token[]>([]);
 
   useEffect(() => {
-    getTokens().then(tokens => {
+    getTokens().then((tokens) => {
       setTokenList(tokens);
     });
   }, [getTokens]);
 
-  /**
-   * @function handleTokenSelect
-   * @description Updates the form with the selected token address.
-   * @param {TokenTypes} token - The selected token.
-   */
-  const handleTokenSelect = (token: Token) => {
-    setValue('tokenAddress', token.address, { shouldValidate: true });
-    console.log(getValues());
-  };
-
-  if(!tokenList) return null; 
+  if (!tokenList) return null;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-1">
+      <label htmlFor="token" className="font-medium text-sm text-gray-700 dark:text-gray-300">
+        {t(`${TRANSLATION_KEY}.select_token`)}
+      </label>
       <Controller
-        name="tokenAddress"
+        name="token"
         control={control}
-        render={({ field }) => (
-          <Finder options={tokenList} onSelect={handleTokenSelect}>
-            <Finder.Trigger>
-              <Button type="button" variant="outline" className="w-full justify-between">
-                {field.value
-                  ? tokenList.find((t) => t.address === field.value)?.name || t(`${TRANSLATION_KEY}.select_token`)
-                  : t(`${TRANSLATION_KEY}.select_token`)}
-                <ChevronsUpDown />
-              </Button>
-            </Finder.Trigger>
-            <Finder.Content closeOnClisk={false} position="left" className="min-w-64">
-              <Finder.Input placeholder={t(`${TRANSLATION_KEY}.search_placeholder`, 'Search tokens...')} />
-              <Finder.List renderOption={(option: Token) => <span>{option.name}</span>} />
-              <Finder.Empty message={t(`${TRANSLATION_KEY}.no_tokens_found`, 'No tokens found.')} />
-            </Finder.Content>
-          </Finder>
-        )}
+        render={({ field }) => {
+          const selectedTokenName = field.value.address ? field.value.name : t(`${TRANSLATION_KEY}.select_token`);
+          return (
+            <Finder
+              options={tokenList}
+              onSelect={(option: Token) => {
+                field.onChange(option);
+              }}
+            >
+              <Finder.Trigger>
+                <Button type="button" variant="outline" className="w-full justify-between">
+                  {selectedTokenName}
+                  <ChevronsUpDown />
+                </Button>
+              </Finder.Trigger>
+              <Finder.Content closeOnClisk={false} position="left" className="min-w-64">
+                <Finder.Input placeholder={t(`${TRANSLATION_KEY}.search_placeholder`, 'Search tokens...')} />
+                <Finder.List renderOption={(option: Token) => <span>{option.name}</span>} />
+                <Finder.Empty message={t(`${TRANSLATION_KEY}.no_tokens_found`, 'No tokens found.')} />
+              </Finder.Content>
+            </Finder>
+          );
+        }}
       />
-      {error && (
+      {error ? (
         <span className="text-red-500 text-sm" role="alert">
           {error}
         </span>
+      ) : (
+        <span className="text-gray-500 text-sm">{t(`${TRANSLATION_KEY}.description`)}</span>
       )}
     </div>
   );
