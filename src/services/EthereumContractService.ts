@@ -1,8 +1,11 @@
 import { ethers } from 'ethers';
 import SafeABI from '../abi/Safe.json';
-import ERC20ABI from '../abi/ERC20.json';
 import { IBlockchainContractService, Project, SafeContract } from '../types';
 import config from '../config';
+import { BrowserProvider } from 'ethers';
+import { Token } from '../config/tokens';
+import { calculateMilestoneAmountsWei } from './helpers/calculateMilestoneAmountsWei';
+import { prepareErc20Funding } from './helpers/prepareErc20Funding';
 
 /**
  * @class EthereumContractService
@@ -11,6 +14,7 @@ import config from '../config';
 export class EthereumContractService implements IBlockchainContractService {
   private readOnlyContract: SafeContract;
   private contract: SafeContract;
+  private provider: ethers.Provider;
 
   /**
    * @constructor
@@ -22,7 +26,13 @@ export class EthereumContractService implements IBlockchainContractService {
     this.readOnlyContract = new ethers.Contract(config.env.CONTRACT_ADDRESS, SafeABI, publicProvider) as SafeContract;
 
     // Use the provided provider or the public one
-    this.contract = new ethers.Contract(config.env.CONTRACT_ADDRESS, SafeABI, provider || publicProvider) as SafeContract;
+    this.contract = new ethers.Contract(
+      config.env.CONTRACT_ADDRESS,
+      SafeABI,
+      provider || publicProvider
+    ) as SafeContract;
+
+    this.provider = provider || publicProvider;
   }
 
   /**
@@ -87,61 +97,90 @@ export class EthereumContractService implements IBlockchainContractService {
     }
   }
 
-    /**
+  /**
    * @method connectWithSigner
    * @description Connects the contract with a signer (used for transactions).
    * @param {ethers.Signer} signer - The signer from MetaMask.
    */
-    connectWithSigner(signer: ethers.Signer) {
-      this.contract = this.contract.connect(signer) as SafeContract;
-    }
+  connectWithSigner(signer: ethers.Signer) {
+    this.contract = this.contract.connect(signer) as SafeContract;
+  }
 
   /**
    * @method createProject
-   * @description Creates a new project on the blockchain with updated logic.
-   * @param {string} executor - The address of the executor (freelancer).
-   * @param {string} totalAmount - The total amount for the project in Ether.
-   * @param {string[]} milestoneAmounts - An array of milestone amounts in Ether.
-   * @param {number} platformFeePercent - The platform fee percentage.
-   * @param {string} tokenAddress - The address of the ERC20 token used for payments
-   *                                (use '0x0000000000000000000000000000000000000000' for native currency).
-   * @param {ethers.Signer} signer - The signer to authorize the transaction.
+   * @description Creates a new project on-chain.
+   * Includes optional logic for infinite allowance if using ERC-20 tokens.
+   *
+   * @param {string} executor - Address of the executor.
+   * @param {string} totalAmount - Total project amount in human-readable token units (e.g., "1.5").
+   * @param {number[]} milestonePercents - Milestone percentages that sum to 100.
+   * @param {number} platformFeePercent - Platform fee as a percentage (1 => 1%).
+   * @param {Token} token - Token object (if address == zeroAddress, assume native currency).
+   * @param {boolean} [useInfiniteAllowance=true] - Whether to set a large one-time allowance for ERC-20.
    * @returns {Promise<ethers.ContractTransaction>} The transaction object.
-   * @throws Will throw an error if the contract call fails.
+   *
+   * @example
+   * const tx = await ethereumContractService.createProject(
+   *   '0xExecutorAddr...',
+   *   '10',         // 10 tokens total
+   *   [40, 60],     // two milestones: 40% and 60%
+   *   2,            // 2% platform fee
+   *   { name: 'USDT', address: '0x...' },
+   *   true          // infinite allowance
+   * );
    */
   async createProject(
     executor: string,
     totalAmount: string,
-    milestoneAmounts: string[],
+    milestonePercents: number[],
     platformFeePercent: number,
-    tokenAddress: string,
+    token: Token,
+    useInfiniteAllowance = true
   ): Promise<ethers.ContractTransaction> {
     try {
-      const signer = await this.contract.provider.getSigner();
+      // Validate the executor address
+      this.validateExecutorAddress(executor);
 
+      // Get the signer from the provider
+      const walletProvider = this.provider as BrowserProvider;
+      const signer = await walletProvider.getSigner();
       this.connectWithSigner(signer);
-      const contractWithSigner = this.contract.connect(signer) as SafeContract;
-      const totalAmountInWei = ethers.parseEther(totalAmount);
-      const milestoneAmountsInWei = milestoneAmounts.map((amount) =>
-        ethers.parseEther(Number(amount).toFixed(18))
-      );
-      
-      // Check if the token is the native currency (ETH)
-      const isNativeCurrency = tokenAddress === config.networks.zeroAddress;
 
-      if (!isNativeCurrency) await this.approveERC20Allowance(totalAmountInWei, tokenAddress, signer);
-      
-      return await contractWithSigner.createProject(
-        executor,
-        totalAmountInWei,
-        milestoneAmountsInWei,
-        platformFeePercent,
-        tokenAddress,
-        isNativeCurrency ? { value: totalAmountInWei } : {} // Send ETH value if using native currency
+      // Determine if we're dealing with native currency or an ERC-20 token
+      const isNativeCurrency = token.address === config.networks.zeroAddress;
+
+      // Parse totalAmount into Wei (bigint) and handle allowance if needed
+      const totalAmountWei = isNativeCurrency
+        ? ethers.parseEther(totalAmount)
+        : await prepareErc20Funding(signer, token, totalAmount, useInfiniteAllowance);
+
+      // Convert the platform fee to basis points
+      const platformFeeInBasisPoints = this.convertPercentToBasisPoints(platformFeePercent);
+
+      // Calculate milestone amounts in Wei, subtracting the fee from the total
+      const milestoneAmountsWei = calculateMilestoneAmountsWei(
+        totalAmountWei,
+        platformFeeInBasisPoints,
+        milestonePercents
       );
+
+      // If using native currency, pass { value: totalAmountWei } to fund the transaction
+      const txOptions = isNativeCurrency ? { value: totalAmountWei } : {};
+
+      // Call createProject in the contract
+      const tx = await this.contract.createProject(
+        executor,
+        totalAmountWei,
+        milestoneAmountsWei,
+        platformFeeInBasisPoints,
+        isNativeCurrency ? config.networks.zeroAddress : token.address,
+        txOptions
+      );
+
+      return tx;
     } catch (error) {
-      console.error('Error creating project:', error);
-      throw new Error('Failed to create project');
+      console.error('Error in createProject:', error);
+      throw new Error('unexpected_error');
     }
   }
 
@@ -167,20 +206,25 @@ export class EthereumContractService implements IBlockchainContractService {
     };
   }
 
+  /**
+   * @method validateExecutorAddress
+   * @description Ensures the executor address is valid and not the zero address.
+   * @param {string} executor - The executor address.
+   * @throws Will throw if the address is invalid or zero.
+   */
+  private validateExecutorAddress(executor: string): void {
+    if (!ethers.isAddress(executor) || executor === config.networks.zeroAddress) {
+      throw new Error('invalid_executor_address');
+    }
+  }
 
   /**
-   * @method approveERC20Allowance
-   * @description Approves the Safe contract to spend a certain amount of an ERC-20 token on behalf of the user.
-   *
-   * @param {bigint} amount - The amount of tokens (in wei) to approve.
-   * @param {string} tokenAddress - The ERC-20 token contract address.
-   * @param {ethers.Signer} signer - The signer (must hold tokens).
-   * @returns {Promise<ethers.ContractTransaction>} The approve transaction object.
+   * @method convertPercentToBasisPoints
+   * @description Converts a percentage to basis points (1% => 100).
+   * @param {number} percent - Platform fee percent.
+   * @returns {number} The fee in basis points.
    */
-  private async approveERC20Allowance(amount: bigint, tokenAddress: string, signer: ethers.Signer): Promise<ethers.ContractTransaction> {
-    if (tokenAddress === config.networks.zeroAddress) throw new Error('Cannot approve allowance for native currency.');
-
-    const tokenContract = new ethers.Contract(tokenAddress, ERC20ABI, signer);
-    return await tokenContract.approve(config.env.CONTRACT_ADDRESS, amount);
+  private convertPercentToBasisPoints(percent: number): number {
+    return percent * 100;
   }
 }
