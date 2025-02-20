@@ -17,14 +17,21 @@ export const createProjectValidationSchema = (t: (key: string) => string) =>
       .number()
       .min(1, t('pages.create_project.errors.platform_fee_positive'))
       .required(t('pages.create_project.errors.platform_fee_required')),
-    tokenAddress: yup.string().required(t('pages.create_project.errors.token_address_required')),
+    token: yup
+      .object({
+        name: yup.string().required(),
+        address: yup.string().required(),
+      })
+      .required(t('pages.create_project.errors.token_address_required')),
+
     milestonePercentages: yup
       .array()
-      .of(
-        yup
-          .string()
-          .required(t('pages.create_project.errors.milestone_percentage_required'))
-          .matches(/^\d+(\.\d{1,2})?$/, t('pages.create_project.errors.milestone_invalid_percentage_format'))
+      .of(yup.number().required(t('pages.create_project.errors.milestone_percentage_required')))
+      .test(
+        'total-100',
+        t('pages.create_project.fields.milestone.not_enough'),
+        (values) => values && values.reduce((sum: number, value: number) => sum + value, 0) === 100
       )
       .required(t('pages.create_project.errors.milestones_required')),
+      useInfiniteAllowance: yup.boolean().required(),
   });
