@@ -1,6 +1,7 @@
 import { BigNumberish, Contract, ContractTransaction, ethers } from 'ethers';
 import { TronContractTransaction } from './tron';
 import TronWeb from 'tronweb';
+import { Token } from '../config/tokens';
 
 // Define the structure of a project, as returned by both Tron and Ethereum contracts
 export interface Project {
@@ -94,9 +95,10 @@ export interface IBlockchainContractService {
   createProject(
     executor: string,
     totalAmount: string,
-    milestoneAmounts: string[],
+    milestoneAmounts: number[],
     platformFeePercent: number,
-    tokenAddress: string,
+    token: Token,
+    useInfiniteAllowance: boolean,
     signer?: ethers.Signer | TronWeb
   ): Promise<ContractTransaction | TronContractTransaction>;
 }
