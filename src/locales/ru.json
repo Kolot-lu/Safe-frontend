@@ -20,16 +20,23 @@
           "milestone_amount": "Сумма этапа (%)",
           "milestone_amount_placeholder": "Пример: 50 для 50%",
           "enter_percentage": "Введите процент",
-          "milestone_amount_aria": "Сумма этапа",
+          "milestone_amount_aria": "Сумма этапа {index}",
           "remove_milestone": "Удалить этап",
-          "add_milestone": "Добавить этап"
+          "add_milestone": "Добавить этап",
+          "cannot_add_more": "Невозможно добавить больше этапов. Общий процент уже достигает 100%.",
+          "not_enough": "Недостаточно этапов. Общий процент должен составлять 100%."
         },
         "token_address": {
           "token_address": "Адрес токена",
           "token_address_placeholder": "0x0123...",
           "select_token": "Выбрать токен",
           "search_placeholder": "Поиск токенов...",
-          "no_tokens_found": "Токены не найдены."
+          "no_tokens_found": "Токены не найдены.",
+          "description": "Адрес токена — это адрес токена, который будет использоваться для проекта."
+        },
+        "use_infinite_allowance": {
+          "title": "Использовать бесконечный лимит",
+          "description": "Если включено, платформа сможет тратить токен от вашего имени без необходимости подтверждать каждую транзакцию."
         },
         "total_amount": "Общая сумма",
         "conversions": "Конверсии",
@@ -60,7 +67,10 @@
         "platform_fee_positive": "Комиссия платформы должна быть положительной.",
         "milestones_required": "Необходимо указать хотя бы один этап.",
         "milestone_percentage_required": "Необходимо указать процент этапа.",
-        "milestone_invalid_percentage_format": "Процент этапа должен быть числом."
+        "milestone_invalid_percentage_format": "Процент этапа должен быть числом.",
+        "milestone_must_be_number": "Процент этапа должен быть числом.",
+        "milestone_min": "Каждый этап должен быть не менее {min}%.",
+        "milestone_max": "Этап не может превышать {max}%."      
       },
       "success": "Проект успешно создан!"
     }
@@ -188,6 +198,16 @@
     "use_blockchain": {
       "errors": {
         "no_provider": "useBlockchain должен использоваться внутри BlockchainProvider!"
+      }
+    }
+  },
+  "services": {
+    "ethereum_contract": {
+      "create_project": {
+        "invalid_executor_address": "Недействительный адрес исполнителя",
+        "unexpected_error": "Произошла неожиданная ошибка при создании проекта",
+        "exceed_total_amount": "Рассчитанная комиссия превышает общую сумму",
+        "milestones_not_100": "Сумма процентов этапов должна составлять ровно 100"
       }
     }
   }

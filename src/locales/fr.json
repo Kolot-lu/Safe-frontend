@@ -20,16 +20,23 @@
           "milestone_amount": "Montant de l'étape (%)",
           "milestone_amount_placeholder": "Exemple : 50 pour 50%",
           "enter_percentage": "Entrez le pourcentage",
-          "milestone_amount_aria": "Montant de l'étape",
+          "milestone_amount_aria": "Montant de l'étape {index}",
           "remove_milestone": "Supprimer l'étape",
-          "add_milestone": "Ajouter une étape"
+          "add_milestone": "Ajouter une étape",
+          "cannot_add_more": "Impossible d'ajouter plus d'étapes. Le total atteint déjà 100%.",
+          "not_enough": "Pas assez d'étapes. Le total doit atteindre 100%."
         },
         "token_address": {
           "token_address": "Adresse du token",
           "token_address_placeholder": "0x0123...",
           "select_token": "Sélectionner un token",
           "search_placeholder": "Rechercher des tokens...",
-          "no_tokens_found": "Aucun token trouvé."
+          "no_tokens_found": "Aucun token trouvé.",
+          "description": "L'adresse du token est l'adresse du token qui sera utilisé pour le projet."
+        },
+        "use_infinite_allowance": {
+          "title": "Utiliser une allocation infinie",
+          "description": "Si activé, la plateforme pourra dépenser le token en votre nom sans avoir besoin d'approuver chaque transaction."
         },
         "total_amount": "Montant total",
         "conversions": "Conversions",
@@ -60,7 +67,10 @@
         "platform_fee_positive": "Les frais de plateforme doivent être positifs.",
         "milestones_required": "Au moins une étape est requise.",
         "milestone_percentage_required": "Le pourcentage de l'étape est requis.",
-        "milestone_invalid_percentage_format": "Le pourcentage de l'étape doit être un nombre."
+        "milestone_invalid_percentage_format": "Le pourcentage de l'étape doit être un nombre.",
+        "milestone_must_be_number": "Le pourcentage de l'étape doit être un nombre.",
+        "milestone_min": "Chaque étape doit être d'au moins {min}%.",
+        "milestone_max": "L'étape ne peut pas dépasser {max}%."
       },
       "success": "Projet créé avec succès!"
     }
@@ -188,6 +198,16 @@
     "use_blockchain": {
       "errors": {
         "no_provider": "useBlockchain doit être utilisé dans un BlockchainProvider!"
+      }
+    }
+  },
+  "services": {
+    "ethereum_contract": {
+      "create_project": {
+        "invalid_executor_address": "Adresse de l'exécuteur invalide",
+        "unexpected_error": "Une erreur inattendue s'est produite lors de la création du projet",
+        "exceed_total_amount": "Les frais calculés dépassent le montant total",
+        "milestones_not_100": "La somme des pourcentages des étapes doit être exactement 100"
       }
     }
   }

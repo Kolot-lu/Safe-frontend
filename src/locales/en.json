@@ -20,19 +20,25 @@
           "milestone_amount": "Milestone Amount (%)",
           "milestone_amount_placeholder": "Example: 50 for 50%",
           "enter_percentage": "Enter percentage",
-          "milestone_amount_aria": "Milestone Amount",
+          "milestone_amount_aria": "Milestone {index} Amount",
           "remove_milestone": "Remove Milestone",
-          "add_milestone": "Add Milestone"
+          "add_milestone": "Add Milestone",
+          "cannot_add_more": "Cannot add more milestones. Total already reaches 100%.",
+          "not_enough": "Not enough milestones. Total must reach 100%."
         },
         "token_address": {
           "token_address": "Token Address",
           "token_address_placeholder": "0x0123...",
           "select_token": "Select a token",
           "search_placeholder": "Search tokens...",
-          "no_tokens_found": "No tokens found."
+          "no_tokens_found": "No tokens found.",
+          "description": "The token address is the address of the token that will be used for the project."
+        },
+        "use_infinite_allowance": {
+          "title": "Use Infinite Allowance",
+          "description": "If enabled, the platform will be able to spend the token on your behalf without needing to approve each transaction."
         },
         "total_amount": "Total Amount",
-
         "conversions": "Conversions",
         "fee_explanation": "You entered a platform fee of {{fee}}%. The contract expects 100 = 1%, so for example, 5% = 500.",
         "calculated_fee": "Calculated Fee",
@@ -61,7 +67,9 @@
         "platform_fee_positive": "Platform fee must be positive.",
         "milestones_required": "At least one milestone is required.",
         "milestone_percentage_required": "Milestone percentage is required.",
-        "milestone_invalid_percentage_format": "Milestone percentage must be a number."
+        "milestone_must_be_number": "Milestone percentage must be a number.",
+        "milestone_min": "Each milestone must be at least {min}%.",
+        "milestone_max": "Milestone cannot exceed {max}%."
       },
       "success": "Project created successfully!"
     }
@@ -189,6 +197,16 @@
     "use_blockchain": {
       "errors": {
         "no_provider": "useBlockchain must be used within a BlockchainProvider!"
+      }
+    }
+  },
+  "services": {
+    "ethereum_contract": {
+      "create_project": {
+        "invalid_executor_address": "Invalid executor address",
+        "unexpected_error": "An unexpected error occurred while creating the project",
+        "exceed_total_amount": "Calculated fee exceeds the total amount",
+        "milestones_not_100": "The sum of milestonePercents must be exactly 100"
       }
     }
   }
