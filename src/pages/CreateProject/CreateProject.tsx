@@ -12,6 +12,8 @@ import TokenAddressInput from './components/TokenAddressInput';
 import { useBlockchain } from '../../hooks/useBlockchain';
 import { useToast } from '../../hooks/useToast';
 import { createProjectValidationSchema } from './validation/schema';
+import { Token } from '../../config/tokens';
+import InfiniteAllowanceCheckbox from './components/InfiniteAllowanceCheckbox';
 
 const TRANSLATION_KEY = 'pages.create_project';
 
@@ -19,8 +21,9 @@ interface FormData {
   executor: string;
   totalAmount: number;
   platformFee: number;
-  tokenAddress: string;
-  milestonePercentages: string[];
+  token: Token;
+  milestonePercentages: number[];
+  useInfiniteAllowance: boolean;
 }
 
 /**
@@ -33,7 +36,7 @@ interface FormData {
  */
 const CreateProjectPage: React.FC = () => {
   const { t } = useTranslation();
-  const { contractService,  } = useBlockchain();
+  const { contractService } = useBlockchain();
   const { showToast } = useToast();
 
   // Initialize form with validation schema and default values
@@ -42,9 +45,10 @@ const CreateProjectPage: React.FC = () => {
     defaultValues: {
       executor: '',
       totalAmount: 0,
-      platformFee: 0,
-      tokenAddress: '',
-      milestonePercentages: [''],
+      milestonePercentages: [100],
+      platformFee: 1,
+      token: {} as Token,
+      useInfiniteAllowance: true,
     },
   });
   const { handleSubmit, formState } = methods;
@@ -58,8 +62,6 @@ const CreateProjectPage: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     if (!contractService)
       return showToast({ message: t(`${TRANSLATION_KEY}.errors.no_contract_service`), type: 'error' });
-    
-    // if (!signer) return showToast({ message: t(`${TRANSLATION_KEY}.errors.no_signer`), type: 'error' });
 
     try {
       await contractService.createProject(
@@ -67,13 +69,16 @@ const CreateProjectPage: React.FC = () => {
         data.totalAmount.toString(),
         data.milestonePercentages,
         data.platformFee,
-        data.tokenAddress,
-
+        data.token,
+        data.useInfiniteAllowance
       );
       showToast({ message: t(`${TRANSLATION_KEY}.success`), type: 'success' });
     } catch (error) {
       showToast({
-        message: error instanceof Error ? error.message : t(`${TRANSLATION_KEY}.errors.generic`),
+        message:
+          error instanceof Error
+            ? t(`services.ethereum_contract.create_project.${error.message}`)
+            : t(`${TRANSLATION_KEY}.errors.generic`),
         type: 'error',
       });
     }
@@ -88,10 +93,11 @@ const CreateProjectPage: React.FC = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Form inputs */}
           <ExecutorInput error={errors.executor?.message} />
-          <TokenAddressInput error={errors.tokenAddress?.message} />
+          <TokenAddressInput error={errors.token?.message} />
           <TotalAmountInput error={errors.totalAmount?.message} />
           <PlatformFeeInput error={errors.platformFee?.message} />
           <MilestonesInput />
+          <InfiniteAllowanceCheckbox error={errors.useInfiniteAllowance?.message} />
 
           {/* Submit button */}
           <Button type="submit" size="large" disabled={isSubmitting}>
